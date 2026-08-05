@@ -1,0 +1,29 @@
+# ===== СЕКРЕТЫ (никогда не публикуем!) =====
+# Токен Telegram-бота. В git НЕ попадает.
+.env
+.env.local
+
+# ===== ПЕРСОНАЛЬНЫЕ ДАННЫЕ =====
+# База пользователей: user_id, chat_id, имена
+data/users.db
+data/*.db
+
+# ===== ЛОГИ =====
+# В логах могут быть URL с токеном
+bot.log
+*.log
+
+# ===== СЛУЖЕБНЫЙ МУСОР Python =====
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/
+venv/
+
+# ===== ТЯЖЁЛЫЕ АССЕТЫ (генерируются скриптами) =====
+# Аудио генерируется: python generate_audio_v2.py
+assets/audio/
+assets/sounds/
+
+# Картинки письменных букв (сгенерированы из шрифта Gveret Levin)
+assets/script/

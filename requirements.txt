@@ -1,0 +1,9 @@
+# Основные зависимости бота
+python-telegram-bot==22.8
+python-dotenv==1.2.2
+edge-tts==7.2.8
+Pillow==12.3.0
+
+# Тестирование (добавлено на этапе тестов)
+pytest==8.3.2
+playwright==1.46.0

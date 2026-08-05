@@ -1,0 +1,1922 @@
+{
+  "words": [
+    {
+      "he": "אני",
+      "ru": "я",
+      "audio_file": "w_338.mp3",
+      "letter": "א",
+      "level": 1
+    },
+    {
+      "he": "הוא",
+      "ru": "он",
+      "audio_file": "w_067.mp3",
+      "letter": "ה",
+      "level": 1
+    },
+    {
+      "he": "היא",
+      "ru": "она",
+      "audio_file": "w_068.mp3",
+      "letter": "ה",
+      "level": 1
+    },
+    {
+      "he": "זה",
+      "ru": "это",
+      "audio_file": "w_088.mp3",
+      "letter": "ז",
+      "level": 1
+    },
+    {
+      "he": "אנו",
+      "ru": "мы",
+      "audio_file": "w_339.mp3",
+      "letter": "א",
+      "level": 1
+    },
+    {
+      "he": "הם",
+      "ru": "они",
+      "audio_file": "w_069.mp3",
+      "letter": "ה",
+      "level": 1
+    },
+    {
+      "he": "לי",
+      "ru": "мне",
+      "audio_file": "w_340.mp3",
+      "letter": "ל",
+      "level": 1
+    },
+    {
+      "he": "אתה",
+      "ru": "ты",
+      "audio_file": "w_341.mp3",
+      "letter": "א",
+      "level": 1
+    },
+    {
+      "he": "לנו",
+      "ru": "нас",
+      "audio_file": "w_342.mp3",
+      "letter": "ל",
+      "level": 1
+    },
+    {
+      "he": "שלי",
+      "ru": "мой",
+      "audio_file": "w_343.mp3",
+      "letter": "ש",
+      "level": 1
+    },
+    {
+      "he": "שלך",
+      "ru": "твой",
+      "audio_file": "w_344.mp3",
+      "letter": "ש",
+      "level": 1
+    },
+    {
+      "he": "שלה",
+      "ru": "ее",
+      "audio_file": "w_345.mp3",
+      "letter": "ש",
+      "level": 1
+    },
+    {
+      "he": "שלו",
+      "ru": "его",
+      "audio_file": "w_346.mp3",
+      "letter": "ש",
+      "level": 1
+    },
+    {
+      "he": "הבא",
+      "ru": "следующий",
+      "audio_file": "w_347.mp3",
+      "letter": "ה",
+      "level": 1
+    },
+    {
+      "he": "אחד",
+      "ru": "один",
+      "audio_file": "w_005.mp3",
+      "letter": "א",
+      "level": 1
+    },
+    {
+      "he": "חמש",
+      "ru": "пять",
+      "audio_file": "w_103.mp3",
+      "letter": "ח",
+      "level": 1
+    },
+    {
+      "he": "שש",
+      "ru": "шесть",
+      "audio_file": "w_306.mp3",
+      "letter": "ש",
+      "level": 1
+    },
+    {
+      "he": "תשע",
+      "ru": "девять",
+      "audio_file": "w_348.mp3",
+      "letter": "ת",
+      "level": 1
+    },
+    {
+      "he": "עשר",
+      "ru": "десять",
+      "audio_file": "w_349.mp3",
+      "letter": "ע",
+      "level": 1
+    },
+    {
+      "he": "שוב",
+      "ru": "снова",
+      "audio_file": "w_350.mp3",
+      "letter": "ש",
+      "level": 1
+    },
+    {
+      "he": "אחר",
+      "ru": "другой",
+      "audio_file": "w_351.mp3",
+      "letter": "א",
+      "level": 1
+    },
+    {
+      "he": "ו",
+      "ru": "и",
+      "audio_file": "w_081.mp3",
+      "letter": "ו",
+      "level": 1
+    },
+    {
+      "he": "ל",
+      "ru": "к",
+      "audio_file": "w_352.mp3",
+      "letter": "ל",
+      "level": 1
+    },
+    {
+      "he": "ב",
+      "ru": "в",
+      "audio_file": "w_353.mp3",
+      "letter": "ב",
+      "level": 1
+    },
+    {
+      "he": "היה",
+      "ru": "был",
+      "audio_file": "w_354.mp3",
+      "letter": "ה",
+      "level": 1
+    },
+    {
+      "he": "על",
+      "ru": "на",
+      "audio_file": "w_230.mp3",
+      "letter": "ע",
+      "level": 1
+    },
+    {
+      "he": "עם",
+      "ru": "с",
+      "audio_file": "w_231.mp3",
+      "letter": "ע",
+      "level": 1
+    },
+    {
+      "he": "ב-",
+      "ru": "в",
+      "audio_file": "w_355.mp3",
+      "letter": "ב",
+      "level": 1
+    },
+    {
+      "he": "יש",
+      "ru": "иметь",
+      "audio_file": "w_139.mp3",
+      "letter": "י",
+      "level": 1
+    },
+    {
+      "he": "מ",
+      "ru": "от",
+      "audio_file": "w_356.mp3",
+      "letter": "מ",
+      "level": 1
+    },
+    {
+      "he": "או",
+      "ru": "или",
+      "audio_file": "w_014.mp3",
+      "letter": "א",
+      "level": 1
+    },
+    {
+      "he": "מלה",
+      "ru": "слово",
+      "audio_file": "w_357.mp3",
+      "letter": "מ",
+      "level": 1
+    },
+    {
+      "he": "אבל",
+      "ru": "но",
+      "audio_file": "w_358.mp3",
+      "letter": "א",
+      "level": 1
+    },
+    {
+      "he": "לא",
+      "ru": "нет",
+      "audio_file": "w_162.mp3",
+      "letter": "ל",
+      "level": 1
+    },
+    {
+      "he": "מה",
+      "ru": "что",
+      "audio_file": "w_191.mp3",
+      "letter": "מ",
+      "level": 1
+    },
+    {
+      "he": "היו",
+      "ru": "были",
+      "audio_file": "w_359.mp3",
+      "letter": "ה",
+      "level": 1
+    },
+    {
+      "he": "מתי",
+      "ru": "когда",
+      "audio_file": "w_360.mp3",
+      "letter": "מ",
+      "level": 1
+    },
+    {
+      "he": "אמר",
+      "ru": "сказал",
+      "audio_file": "w_361.mp3",
+      "letter": "א",
+      "level": 1
+    },
+    {
+      "he": "שם",
+      "ru": "там",
+      "audio_file": "w_362.mp3",
+      "letter": "ש",
+      "level": 1
+    },
+    {
+      "he": "אפס",
+      "ru": "нуль",
+      "audio_file": "w_363.mp3",
+      "letter": "א",
+      "level": 1
+    },
+    {
+      "he": "איך",
+      "ru": "как",
+      "audio_file": "w_016.mp3",
+      "letter": "א",
+      "level": 1
+    },
+    {
+      "he": "אם",
+      "ru": "если",
+      "audio_file": "w_004.mp3",
+      "letter": "א",
+      "level": 1
+    },
+    {
+      "he": "רב",
+      "ru": "много",
+      "audio_file": "w_295.mp3",
+      "letter": "ר",
+      "level": 1
+    },
+    {
+      "he": "אלה",
+      "ru": "эти",
+      "audio_file": "w_364.mp3",
+      "letter": "א",
+      "level": 1
+    },
+    {
+      "he": "כך",
+      "ru": "так",
+      "audio_file": "w_365.mp3",
+      "letter": "כ",
+      "level": 1
+    },
+    {
+      "he": "כמה",
+      "ru": "некоторый",
+      "audio_file": "w_366.mp3",
+      "letter": "כ",
+      "level": 1
+    },
+    {
+      "he": "עשה",
+      "ru": "делать",
+      "audio_file": "w_367.mp3",
+      "letter": "ע",
+      "level": 1
+    },
+    {
+      "he": "כמו",
+      "ru": "нравиться",
+      "audio_file": "w_368.mp3",
+      "letter": "כ",
+      "level": 1
+    },
+    {
+      "he": "זמן",
+      "ru": "время",
+      "audio_file": "w_093.mp3",
+      "letter": "ז",
+      "level": 1
+    },
+    {
+      "he": "יש ל",
+      "ru": "имеет",
+      "audio_file": "w_369.mp3",
+      "letter": "י",
+      "level": 1
+    },
+    {
+      "he": "דרך",
+      "ru": "способ",
+      "audio_file": "w_056.mp3",
+      "letter": "ד",
+      "level": 1
+    },
+    {
+      "he": "מים",
+      "ru": "вода",
+      "audio_file": "w_181.mp3",
+      "letter": "מ",
+      "level": 1
+    },
+    {
+      "he": "מי",
+      "ru": "воз",
+      "audio_file": "w_190.mp3",
+      "letter": "מ",
+      "level": 1
+    },
+    {
+      "he": "שמן",
+      "ru": "масло",
+      "audio_file": "w_316.mp3",
+      "letter": "ש",
+      "level": 1
+    },
+    {
+      "he": "מטה",
+      "ru": "вниз",
+      "audio_file": "w_370.mp3",
+      "letter": "מ",
+      "level": 1
+    },
+    {
+      "he": "יום",
+      "ru": "день",
+      "audio_file": "w_133.mp3",
+      "letter": "י",
+      "level": 1
+    },
+    {
+      "he": "מאי",
+      "ru": "может",
+      "audio_file": "w_371.mp3",
+      "letter": "מ",
+      "level": 1
+    },
+    {
+      "he": "חלק",
+      "ru": "часть",
+      "audio_file": "w_372.mp3",
+      "letter": "ח",
+      "level": 1
+    },
+    {
+      "he": "חדש",
+      "ru": "новый",
+      "audio_file": "w_373.mp3",
+      "letter": "ח",
+      "level": 1
+    },
+    {
+      "he": "סוף",
+      "ru": "конец",
+      "audio_file": "w_222.mp3",
+      "letter": "ס",
+      "level": 1
+    },
+    {
+      "he": "רק",
+      "ru": "только",
+      "audio_file": "w_374.mp3",
+      "letter": "ר",
+      "level": 1
+    },
+    {
+      "he": "קטן",
+      "ru": "маленький",
+      "audio_file": "w_272.mp3",
+      "letter": "ק",
+      "level": 1
+    },
+    {
+      "he": "נו",
+      "ru": "хорошо",
+      "audio_file": "w_375.mp3",
+      "letter": "נ",
+      "level": 1
+    },
+    {
+      "he": "קו",
+      "ru": "линия",
+      "audio_file": "w_376.mp3",
+      "letter": "ק",
+      "level": 1
+    },
+    {
+      "he": "שנה",
+      "ru": "год",
+      "audio_file": "w_377.mp3",
+      "letter": "ש",
+      "level": 1
+    },
+    {
+      "he": "גם",
+      "ru": "слишком",
+      "audio_file": "w_378.mp3",
+      "letter": "ג",
+      "level": 1
+    },
+    {
+      "he": "ישן",
+      "ru": "старый",
+      "audio_file": "w_379.mp3",
+      "letter": "י",
+      "level": 1
+    },
+    {
+      "he": "כי",
+      "ru": "потому что",
+      "audio_file": "w_380.mp3",
+      "letter": "כ",
+      "level": 1
+    },
+    {
+      "he": "כל",
+      "ru": "любой",
+      "audio_file": "w_148.mp3",
+      "letter": "כ",
+      "level": 1
+    },
+    {
+      "he": "לתת",
+      "ru": "давать",
+      "audio_file": "w_381.mp3",
+      "letter": "ל",
+      "level": 1
+    },
+    {
+      "he": "כאן",
+      "ru": "здесь",
+      "audio_file": "w_382.mp3",
+      "letter": "כ",
+      "level": 1
+    },
+    {
+      "he": "רוב",
+      "ru": "большинство",
+      "audio_file": "w_383.mp3",
+      "letter": "ר",
+      "level": 1
+    },
+    {
+      "he": "למה",
+      "ru": "почему",
+      "audio_file": "w_384.mp3",
+      "letter": "ל",
+      "level": 1
+    },
+    {
+      "he": "ילד",
+      "ru": "мальчик",
+      "audio_file": "w_135.mp3",
+      "letter": "י",
+      "level": 1
+    },
+    {
+      "he": "הלך",
+      "ru": "шел",
+      "audio_file": "w_385.mp3",
+      "letter": "ה",
+      "level": 1
+    },
+    {
+      "he": "דבר",
+      "ru": "вещь",
+      "audio_file": "w_386.mp3",
+      "letter": "ד",
+      "level": 1
+    },
+    {
+      "he": "ארץ",
+      "ru": "земля",
+      "audio_file": "w_387.mp3",
+      "letter": "א",
+      "level": 1
+    },
+    {
+      "he": "טוב",
+      "ru": "хороший",
+      "audio_file": "w_120.mp3",
+      "letter": "ט",
+      "level": 1
+    },
+    {
+      "he": "בית",
+      "ru": "дом",
+      "audio_file": "w_024.mp3",
+      "letter": "ב",
+      "level": 1
+    },
+    {
+      "he": "איש",
+      "ru": "мужчина",
+      "audio_file": "w_010.mp3",
+      "letter": "א",
+      "level": 1
+    },
+    {
+      "he": "סוג",
+      "ru": "добрый",
+      "audio_file": "w_388.mp3",
+      "letter": "ס",
+      "level": 1
+    },
+    {
+      "he": "יד",
+      "ru": "рука",
+      "audio_file": "w_141.mp3",
+      "letter": "י",
+      "level": 1
+    },
+    {
+      "he": "לחש",
+      "ru": "заклинание",
+      "audio_file": "w_389.mp3",
+      "letter": "ל",
+      "level": 1
+    },
+    {
+      "he": "אמא",
+      "ru": "мать",
+      "audio_file": "w_002.mp3",
+      "letter": "א",
+      "level": 1
+    },
+    {
+      "he": "עוד",
+      "ru": "все еще",
+      "audio_file": "w_390.mp3",
+      "letter": "ע",
+      "level": 1
+    },
+    {
+      "he": "ליד",
+      "ru": "около",
+      "audio_file": "w_391.mp3",
+      "letter": "ל",
+      "level": 1
+    },
+    {
+      "he": "בין",
+      "ru": "между",
+      "audio_file": "w_392.mp3",
+      "letter": "ב",
+      "level": 1
+    },
+    {
+      "he": "צמח",
+      "ru": "растение",
+      "audio_file": "w_393.mp3",
+      "letter": "צ",
+      "level": 1
+    },
+    {
+      "he": "אבא",
+      "ru": "отец",
+      "audio_file": "w_001.mp3",
+      "letter": "א",
+      "level": 1
+    },
+    {
+      "he": "עץ",
+      "ru": "дерево",
+      "audio_file": "w_233.mp3",
+      "letter": "ע",
+      "level": 1
+    },
+    {
+      "he": "עיר",
+      "ru": "город",
+      "audio_file": "w_232.mp3",
+      "letter": "ע",
+      "level": 1
+    },
+    {
+      "he": "עין",
+      "ru": "глаз",
+      "audio_file": "w_228.mp3",
+      "letter": "ע",
+      "level": 1
+    },
+    {
+      "he": "אור",
+      "ru": "свет",
+      "audio_file": "w_007.mp3",
+      "letter": "א",
+      "level": 1
+    },
+    {
+      "he": "ראש",
+      "ru": "голова",
+      "audio_file": "w_288.mp3",
+      "letter": "ר",
+      "level": 1
+    },
+    {
+      "he": "תחת",
+      "ru": "под",
+      "audio_file": "w_394.mp3",
+      "letter": "ת",
+      "level": 1
+    },
+    {
+      "he": "ראה",
+      "ru": "пила",
+      "audio_file": "w_395.mp3",
+      "letter": "ר",
+      "level": 1
+    },
+    {
+      "he": "עד",
+      "ru": "до",
+      "audio_file": "w_396.mp3",
+      "letter": "ע",
+      "level": 1
+    },
+    {
+      "he": "צד",
+      "ru": "сторона",
+      "audio_file": "w_261.mp3",
+      "letter": "צ",
+      "level": 1
+    },
+    {
+      "he": "מיל",
+      "ru": "миля",
+      "audio_file": "w_397.mp3",
+      "letter": "מ",
+      "level": 1
+    },
+    {
+      "he": "לבן",
+      "ru": "белый",
+      "audio_file": "w_398.mp3",
+      "letter": "ל",
+      "level": 1
+    },
+    {
+      "he": "ים",
+      "ru": "море",
+      "audio_file": "w_399.mp3",
+      "letter": "י",
+      "level": 1
+    },
+    {
+      "he": "קשה",
+      "ru": "жесткий",
+      "audio_file": "w_280.mp3",
+      "letter": "ק",
+      "level": 1
+    },
+    {
+      "he": "לקח",
+      "ru": "взял",
+      "audio_file": "w_400.mp3",
+      "letter": "ל",
+      "level": 1
+    },
+    {
+      "he": "נהר",
+      "ru": "река",
+      "audio_file": "w_200.mp3",
+      "letter": "נ",
+      "level": 1
+    },
+    {
+      "he": "ההן",
+      "ru": "те",
+      "audio_file": "w_401.mp3",
+      "letter": "ה",
+      "level": 1
+    },
+    {
+      "he": "פעם",
+      "ru": "один раз",
+      "audio_file": "w_402.mp3",
+      "letter": "פ",
+      "level": 1
+    },
+    {
+      "he": "ספר",
+      "ru": "книга",
+      "audio_file": "w_214.mp3",
+      "letter": "ס",
+      "level": 1
+    },
+    {
+      "he": "יחד",
+      "ru": "вместе",
+      "audio_file": "w_403.mp3",
+      "letter": "י",
+      "level": 1
+    },
+    {
+      "he": "ללא",
+      "ru": "без",
+      "audio_file": "w_404.mp3",
+      "letter": "ל",
+      "level": 1
+    },
+    {
+      "he": "מעל",
+      "ru": "выше",
+      "audio_file": "w_405.mp3",
+      "letter": "מ",
+      "level": 1
+    },
+    {
+      "he": "הר",
+      "ru": "гора",
+      "audio_file": "w_071.mp3",
+      "letter": "ה",
+      "level": 1
+    },
+    {
+      "he": "שיר",
+      "ru": "песня",
+      "audio_file": "w_319.mp3",
+      "letter": "ש",
+      "level": 1
+    },
+    {
+      "he": "גוף",
+      "ru": "тело",
+      "audio_file": "w_406.mp3",
+      "letter": "ג",
+      "level": 1
+    },
+    {
+      "he": "צבע",
+      "ru": "цвет",
+      "audio_file": "w_258.mp3",
+      "letter": "צ",
+      "level": 1
+    },
+    {
+      "he": "שמש",
+      "ru": "солнце",
+      "audio_file": "w_308.mp3",
+      "letter": "ש",
+      "level": 1
+    },
+    {
+      "he": "דג",
+      "ru": "рыба",
+      "audio_file": "w_052.mp3",
+      "letter": "ד",
+      "level": 1
+    },
+    {
+      "he": "כלב",
+      "ru": "собака",
+      "audio_file": "w_153.mp3",
+      "letter": "כ",
+      "level": 1
+    },
+    {
+      "he": "סוס",
+      "ru": "лошадь",
+      "audio_file": "w_215.mp3",
+      "letter": "ס",
+      "level": 1
+    },
+    {
+      "he": "חדר",
+      "ru": "комната",
+      "audio_file": "w_101.mp3",
+      "letter": "ח",
+      "level": 1
+    },
+    {
+      "he": "ידע",
+      "ru": "знал",
+      "audio_file": "w_407.mp3",
+      "letter": "י",
+      "level": 1
+    },
+    {
+      "he": "מאז",
+      "ru": "с",
+      "audio_file": "w_408.mp3",
+      "letter": "מ",
+      "level": 1
+    },
+    {
+      "he": "קל",
+      "ru": "легкий",
+      "audio_file": "w_409.mp3",
+      "letter": "ק",
+      "level": 1
+    },
+    {
+      "he": "שמע",
+      "ru": "слышал",
+      "audio_file": "w_410.mp3",
+      "letter": "ש",
+      "level": 1
+    },
+    {
+      "he": "דלת",
+      "ru": "дверь",
+      "audio_file": "w_053.mp3",
+      "letter": "ד",
+      "level": 1
+    },
+    {
+      "he": "קצר",
+      "ru": "короткий",
+      "audio_file": "w_411.mp3",
+      "letter": "ק",
+      "level": 1
+    },
+    {
+      "he": "קרה",
+      "ru": "случилось",
+      "audio_file": "w_412.mp3",
+      "letter": "ק",
+      "level": 1
+    },
+    {
+      "he": "נתן",
+      "ru": "отдал",
+      "audio_file": "w_413.mp3",
+      "letter": "נ",
+      "level": 1
+    },
+    {
+      "he": "הו",
+      "ru": "ой",
+      "audio_file": "w_414.mp3",
+      "letter": "ה",
+      "level": 1
+    },
+    {
+      "he": "אדם",
+      "ru": "человек",
+      "audio_file": "w_415.mp3",
+      "letter": "א",
+      "level": 1
+    },
+    {
+      "he": "חזק",
+      "ru": "сильный",
+      "audio_file": "w_416.mp3",
+      "letter": "ח",
+      "level": 1
+    },
+    {
+      "he": "אי",
+      "ru": "остров",
+      "audio_file": "w_417.mp3",
+      "letter": "א",
+      "level": 1
+    },
+    {
+      "he": "עמד",
+      "ru": "стоял",
+      "audio_file": "w_418.mp3",
+      "letter": "ע",
+      "level": 1
+    },
+    {
+      "he": "רץ",
+      "ru": "побежал",
+      "audio_file": "w_419.mp3",
+      "letter": "ר",
+      "level": 1
+    },
+    {
+      "he": "כוח",
+      "ru": "сила",
+      "audio_file": "w_420.mp3",
+      "letter": "כ",
+      "level": 1
+    },
+    {
+      "he": "יבש",
+      "ru": "сухой",
+      "audio_file": "w_421.mp3",
+      "letter": "י",
+      "level": 1
+    },
+    {
+      "he": "שפה",
+      "ru": "язык",
+      "audio_file": "w_422.mp3",
+      "letter": "ש",
+      "level": 1
+    },
+    {
+      "he": "כן",
+      "ru": "да",
+      "audio_file": "w_147.mp3",
+      "letter": "כ",
+      "level": 1
+    },
+    {
+      "he": "חום",
+      "ru": "нагревать",
+      "audio_file": "w_423.mp3",
+      "letter": "ח",
+      "level": 1
+    },
+    {
+      "he": "מלא",
+      "ru": "полный",
+      "audio_file": "w_424.mp3",
+      "letter": "מ",
+      "level": 1
+    },
+    {
+      "he": "חם",
+      "ru": "горячий",
+      "audio_file": "w_102.mp3",
+      "letter": "ח",
+      "level": 1
+    },
+    {
+      "he": "כלל",
+      "ru": "правило",
+      "audio_file": "w_425.mp3",
+      "letter": "כ",
+      "level": 1
+    },
+    {
+      "he": "אפל",
+      "ru": "темный",
+      "audio_file": "w_426.mp3",
+      "letter": "א",
+      "level": 1
+    },
+    {
+      "he": "כבד",
+      "ru": "тяжелый",
+      "audio_file": "w_427.mp3",
+      "letter": "כ",
+      "level": 1
+    },
+    {
+      "he": "זוג",
+      "ru": "пара",
+      "audio_file": "w_428.mp3",
+      "letter": "ז",
+      "level": 1
+    },
+    {
+      "he": "ירח",
+      "ru": "луна",
+      "audio_file": "w_137.mp3",
+      "letter": "י",
+      "level": 1
+    },
+    {
+      "he": "גשם",
+      "ru": "дождь",
+      "audio_file": "w_042.mp3",
+      "letter": "ג",
+      "level": 1
+    },
+    {
+      "he": "לב",
+      "ru": "сердце",
+      "audio_file": "w_165.mp3",
+      "letter": "ל",
+      "level": 1
+    },
+    {
+      "he": "קיץ",
+      "ru": "лето",
+      "audio_file": "w_274.mp3",
+      "letter": "ק",
+      "level": 1
+    },
+    {
+      "he": "קיר",
+      "ru": "стена",
+      "audio_file": "w_277.mp3",
+      "letter": "ק",
+      "level": 1
+    },
+    {
+      "he": "יער",
+      "ru": "лес",
+      "audio_file": "w_429.mp3",
+      "letter": "י",
+      "level": 1
+    },
+    {
+      "he": "ישב",
+      "ru": "Суббота",
+      "audio_file": "w_430.mp3",
+      "letter": "י",
+      "level": 1
+    },
+    {
+      "he": "רחב",
+      "ru": "широкий",
+      "audio_file": "w_431.mp3",
+      "letter": "ר",
+      "level": 1
+    },
+    {
+      "he": "שמר",
+      "ru": "хранится",
+      "audio_file": "w_432.mp3",
+      "letter": "ש",
+      "level": 1
+    },
+    {
+      "he": "נשק",
+      "ru": "оружие",
+      "audio_file": "w_433.mp3",
+      "letter": "נ",
+      "level": 1
+    },
+    {
+      "he": "אח",
+      "ru": "брат",
+      "audio_file": "w_434.mp3",
+      "letter": "א",
+      "level": 1
+    },
+    {
+      "he": "גזע",
+      "ru": "раса",
+      "audio_file": "w_435.mp3",
+      "letter": "ג",
+      "level": 1
+    },
+    {
+      "he": "יפה",
+      "ru": "красивый",
+      "audio_file": "w_140.mp3",
+      "letter": "י",
+      "level": 1
+    },
+    {
+      "he": "קצה",
+      "ru": "край",
+      "audio_file": "w_436.mp3",
+      "letter": "ק",
+      "level": 1
+    },
+    {
+      "he": "עבר",
+      "ru": "прошлое",
+      "audio_file": "w_437.mp3",
+      "letter": "ע",
+      "level": 1
+    },
+    {
+      "he": "שמח",
+      "ru": "счастливый",
+      "audio_file": "w_438.mp3",
+      "letter": "ש",
+      "level": 1
+    },
+    {
+      "he": "רך",
+      "ru": "мягкий",
+      "audio_file": "w_439.mp3",
+      "letter": "ר",
+      "level": 1
+    },
+    {
+      "he": "האם",
+      "ru": "ли",
+      "audio_file": "w_440.mp3",
+      "letter": "ה",
+      "level": 1
+    },
+    {
+      "he": "בן",
+      "ru": "сын",
+      "audio_file": "w_022.mp3",
+      "letter": "ב",
+      "level": 1
+    },
+    {
+      "he": "קרח",
+      "ru": "лед",
+      "audio_file": "w_441.mp3",
+      "letter": "ק",
+      "level": 1
+    },
+    {
+      "he": "כפר",
+      "ru": "деревня",
+      "audio_file": "w_442.mp3",
+      "letter": "כ",
+      "level": 1
+    },
+    {
+      "he": "קפץ",
+      "ru": "прыгнул",
+      "audio_file": "w_443.mp3",
+      "letter": "ק",
+      "level": 1
+    },
+    {
+      "he": "שלג",
+      "ru": "снег",
+      "audio_file": "w_444.mp3",
+      "letter": "ש",
+      "level": 1
+    },
+    {
+      "he": "דחף",
+      "ru": "толкнул",
+      "audio_file": "w_065.mp3",
+      "letter": "ד",
+      "level": 1
+    },
+    {
+      "he": "מאה",
+      "ru": "век",
+      "audio_file": "w_445.mp3",
+      "letter": "מ",
+      "level": 1
+    },
+    {
+      "he": "הכל",
+      "ru": "все",
+      "audio_file": "w_446.mp3",
+      "letter": "ה",
+      "level": 1
+    },
+    {
+      "he": "כבר",
+      "ru": "уже",
+      "audio_file": "w_447.mp3",
+      "letter": "כ",
+      "level": 1
+    },
+    {
+      "he": "צחק",
+      "ru": "рассмеялся",
+      "audio_file": "w_448.mp3",
+      "letter": "צ",
+      "level": 1
+    },
+    {
+      "he": "די",
+      "ru": "довольно",
+      "audio_file": "w_449.mp3",
+      "letter": "ד",
+      "level": 1
+    },
+    {
+      "he": "אגם",
+      "ru": "озеро",
+      "audio_file": "w_450.mp3",
+      "letter": "א",
+      "level": 1
+    },
+    {
+      "he": "גיל",
+      "ru": "возраст",
+      "audio_file": "w_451.mp3",
+      "letter": "ג",
+      "level": 1
+    },
+    {
+      "he": "לכל",
+      "ru": "за",
+      "audio_file": "w_452.mp3",
+      "letter": "ל",
+      "level": 1
+    },
+    {
+      "he": "רגע",
+      "ru": "момент",
+      "audio_file": "w_453.mp3",
+      "letter": "ר",
+      "level": 1
+    },
+    {
+      "he": "זהב",
+      "ru": "золото",
+      "audio_file": "w_092.mp3",
+      "letter": "ז",
+      "level": 1
+    },
+    {
+      "he": "חלב",
+      "ru": "молоко",
+      "audio_file": "w_104.mp3",
+      "letter": "ח",
+      "level": 1
+    },
+    {
+      "he": "שקט",
+      "ru": "тихий",
+      "audio_file": "w_314.mp3",
+      "letter": "ש",
+      "level": 1
+    },
+    {
+      "he": "אבן",
+      "ru": "камень",
+      "audio_file": "w_454.mp3",
+      "letter": "א",
+      "level": 1
+    },
+    {
+      "he": "דוב",
+      "ru": "медведь",
+      "audio_file": "w_060.mp3",
+      "letter": "ד",
+      "level": 1
+    },
+    {
+      "he": "פלא",
+      "ru": "удивляться",
+      "audio_file": "w_252.mp3",
+      "letter": "פ",
+      "level": 1
+    },
+    {
+      "he": "חור",
+      "ru": "дыра",
+      "audio_file": "w_455.mp3",
+      "letter": "ח",
+      "level": 1
+    },
+    {
+      "he": "עני",
+      "ru": "бедный",
+      "audio_file": "w_456.mp3",
+      "letter": "ע",
+      "level": 1
+    },
+    {
+      "he": "מת",
+      "ru": "умер",
+      "audio_file": "w_457.mp3",
+      "letter": "מ",
+      "level": 1
+    },
+    {
+      "he": "צעק",
+      "ru": "кричал",
+      "audio_file": "w_458.mp3",
+      "letter": "צ",
+      "level": 1
+    },
+    {
+      "he": "גז",
+      "ru": "газ",
+      "audio_file": "w_459.mp3",
+      "letter": "ג",
+      "level": 1
+    },
+    {
+      "he": "חוק",
+      "ru": "закон",
+      "audio_file": "w_460.mp3",
+      "letter": "ח",
+      "level": 1
+    },
+    {
+      "he": "דשא",
+      "ru": "трава",
+      "audio_file": "w_461.mp3",
+      "letter": "ד",
+      "level": 1
+    },
+    {
+      "he": "גדל",
+      "ru": "вырос",
+      "audio_file": "w_462.mp3",
+      "letter": "ג",
+      "level": 1
+    },
+    {
+      "he": "עור",
+      "ru": "кожа",
+      "audio_file": "w_463.mp3",
+      "letter": "ע",
+      "level": 1
+    },
+    {
+      "he": "עמק",
+      "ru": "долина",
+      "audio_file": "w_464.mp3",
+      "letter": "ע",
+      "level": 1
+    },
+    {
+      "he": "צרה",
+      "ru": "беда",
+      "audio_file": "w_465.mp3",
+      "letter": "צ",
+      "level": 1
+    },
+    {
+      "he": "ענן",
+      "ru": "облако",
+      "audio_file": "w_466.mp3",
+      "letter": "ע",
+      "level": 1
+    },
+    {
+      "he": "אבד",
+      "ru": "потерянный",
+      "audio_file": "w_467.mp3",
+      "letter": "א",
+      "level": 1
+    },
+    {
+      "he": "רע",
+      "ru": "плохой",
+      "audio_file": "w_291.mp3",
+      "letter": "ר",
+      "level": 1
+    },
+    {
+      "he": "לבד",
+      "ru": "один",
+      "audio_file": "w_468.mp3",
+      "letter": "ל",
+      "level": 1
+    },
+    {
+      "he": "פה",
+      "ru": "рот",
+      "audio_file": "w_244.mp3",
+      "letter": "פ",
+      "level": 1
+    },
+    {
+      "he": "חצר",
+      "ru": "площадка",
+      "audio_file": "w_110.mp3",
+      "letter": "ח",
+      "level": 1
+    },
+    {
+      "he": "ישר",
+      "ru": "прямой",
+      "audio_file": "w_469.mp3",
+      "letter": "י",
+      "level": 1
+    },
+    {
+      "he": "מקל",
+      "ru": "палка",
+      "audio_file": "w_470.mp3",
+      "letter": "מ",
+      "level": 1
+    },
+    {
+      "he": "אשה",
+      "ru": "женщина",
+      "audio_file": "w_471.mp3",
+      "letter": "א",
+      "level": 1
+    },
+    {
+      "he": "חוף",
+      "ru": "побережье",
+      "audio_file": "w_112.mp3",
+      "letter": "ח",
+      "level": 1
+    },
+    {
+      "he": "בנק",
+      "ru": "банк",
+      "audio_file": "w_472.mp3",
+      "letter": "ב",
+      "level": 1
+    },
+    {
+      "he": "חוט",
+      "ru": "проволока",
+      "audio_file": "w_473.mp3",
+      "letter": "ח",
+      "level": 1
+    },
+    {
+      "he": "בחר",
+      "ru": "выбирать",
+      "audio_file": "w_474.mp3",
+      "letter": "ב",
+      "level": 1
+    },
+    {
+      "he": "קצת",
+      "ru": "кусочек",
+      "audio_file": "w_475.mp3",
+      "letter": "ק",
+      "level": 1
+    },
+    {
+      "he": "גן",
+      "ru": "сад",
+      "audio_file": "w_043.mp3",
+      "letter": "ג",
+      "level": 1
+    },
+    {
+      "he": "אנא",
+      "ru": "пожалуйста",
+      "audio_file": "w_476.mp3",
+      "letter": "א",
+      "level": 1
+    },
+    {
+      "he": "נפל",
+      "ru": "упал",
+      "audio_file": "w_477.mp3",
+      "letter": "נ",
+      "level": 1
+    },
+    {
+      "he": "סרן",
+      "ru": "капитан",
+      "audio_file": "w_478.mp3",
+      "letter": "ס",
+      "level": 1
+    },
+    {
+      "he": "עסק",
+      "ru": "бизнес",
+      "audio_file": "w_240.mp3",
+      "letter": "ע",
+      "level": 1
+    },
+    {
+      "he": "דוד",
+      "ru": "дядя",
+      "audio_file": "w_055.mp3",
+      "letter": "ד",
+      "level": 1
+    },
+    {
+      "he": "ציד",
+      "ru": "охота",
+      "audio_file": "w_479.mp3",
+      "letter": "צ",
+      "level": 1
+    },
+    {
+      "he": "טון",
+      "ru": "тон",
+      "audio_file": "w_480.mp3",
+      "letter": "ט",
+      "level": 1
+    },
+    {
+      "he": "מכה",
+      "ru": "ударять",
+      "audio_file": "w_481.mp3",
+      "letter": "מ",
+      "level": 1
+    },
+    {
+      "he": "חול",
+      "ru": "песок",
+      "audio_file": "w_482.mp3",
+      "letter": "ח",
+      "level": 1
+    },
+    {
+      "he": "לכן",
+      "ru": "таким образом",
+      "audio_file": "w_483.mp3",
+      "letter": "ל",
+      "level": 1
+    },
+    {
+      "he": "זנב",
+      "ru": "хвост",
+      "audio_file": "w_095.mp3",
+      "letter": "ז",
+      "level": 1
+    },
+    {
+      "he": "סחר",
+      "ru": "торговля",
+      "audio_file": "w_484.mp3",
+      "letter": "ס",
+      "level": 1
+    },
+    {
+      "he": "אלא",
+      "ru": "скорее",
+      "audio_file": "w_485.mp3",
+      "letter": "א",
+      "level": 1
+    },
+    {
+      "he": "קהל",
+      "ru": "толпа",
+      "audio_file": "w_486.mp3",
+      "letter": "ק",
+      "level": 1
+    },
+    {
+      "he": "ערך",
+      "ru": "ценить",
+      "audio_file": "w_487.mp3",
+      "letter": "ע",
+      "level": 1
+    },
+    {
+      "he": "מוט",
+      "ru": "полюс",
+      "audio_file": "w_488.mp3",
+      "letter": "מ",
+      "level": 1
+    },
+    {
+      "he": "עבה",
+      "ru": "толстый",
+      "audio_file": "w_489.mp3",
+      "letter": "ע",
+      "level": 1
+    },
+    {
+      "he": "דם",
+      "ru": "кровь",
+      "audio_file": "w_057.mp3",
+      "letter": "ד",
+      "level": 1
+    },
+    {
+      "he": "שקר",
+      "ru": "ложь",
+      "audio_file": "w_490.mp3",
+      "letter": "ש",
+      "level": 1
+    },
+    {
+      "he": "כיף",
+      "ru": "веселье",
+      "audio_file": "w_491.mp3",
+      "letter": "כ",
+      "level": 1
+    },
+    {
+      "he": "רזה",
+      "ru": "тонкий",
+      "audio_file": "w_492.mp3",
+      "letter": "ר",
+      "level": 1
+    },
+    {
+      "he": "פרי",
+      "ru": "фрукты",
+      "audio_file": "w_246.mp3",
+      "letter": "פ",
+      "level": 1
+    },
+    {
+      "he": "זרם",
+      "ru": "транслировать",
+      "audio_file": "w_493.mp3",
+      "letter": "ז",
+      "level": 1
+    },
+    {
+      "he": "קצב",
+      "ru": "ритм",
+      "audio_file": "w_494.mp3",
+      "letter": "ק",
+      "level": 1
+    },
+    {
+      "he": "מדע",
+      "ru": "наука",
+      "audio_file": "w_495.mp3",
+      "letter": "מ",
+      "level": 1
+    },
+    {
+      "he": "בשר",
+      "ru": "мясо",
+      "audio_file": "w_496.mp3",
+      "letter": "ב",
+      "level": 1
+    },
+    {
+      "he": "צבא",
+      "ru": "армия",
+      "audio_file": "w_497.mp3",
+      "letter": "צ",
+      "level": 1
+    },
+    {
+      "he": "כתף",
+      "ru": "плечо",
+      "audio_file": "w_155.mp3",
+      "letter": "כ",
+      "level": 1
+    },
+    {
+      "he": "בקר",
+      "ru": "крупный рогатый скот",
+      "audio_file": "w_498.mp3",
+      "letter": "ב",
+      "level": 1
+    },
+    {
+      "he": "חד",
+      "ru": "острый",
+      "audio_file": "w_499.mp3",
+      "letter": "ח",
+      "level": 1
+    },
+    {
+      "he": "רמה",
+      "ru": "уровень",
+      "audio_file": "w_500.mp3",
+      "letter": "ר",
+      "level": 1
+    },
+    {
+      "he": "טור",
+      "ru": "столбец",
+      "audio_file": "w_501.mp3",
+      "letter": "ט",
+      "level": 1
+    },
+    {
+      "he": "מול",
+      "ru": "противоположный",
+      "audio_file": "w_502.mp3",
+      "letter": "מ",
+      "level": 1
+    },
+    {
+      "he": "טרי",
+      "ru": "свежий",
+      "audio_file": "w_132.mp3",
+      "letter": "ט",
+      "level": 1
+    },
+    {
+      "he": "אף",
+      "ru": "нос",
+      "audio_file": "w_008.mp3",
+      "letter": "א",
+      "level": 1
+    },
+    {
+      "he": "ורד",
+      "ru": "Роза",
+      "audio_file": "w_082.mp3",
+      "letter": "ו",
+      "level": 1
+    },
+    {
+      "he": "פחד",
+      "ru": "страх",
+      "audio_file": "w_257.mp3",
+      "letter": "פ",
+      "level": 1
+    },
+    {
+      "he": "קנה",
+      "ru": "купил",
+      "audio_file": "w_503.mp3",
+      "letter": "ק",
+      "level": 1
+    },
+    {
+      "he": "לד",
+      "ru": "вел",
+      "audio_file": "w_504.mp3",
+      "letter": "ל",
+      "level": 1
+    },
+    {
+      "he": "מרץ",
+      "ru": "маршировать",
+      "audio_file": "w_505.mp3",
+      "letter": "מ",
+      "level": 1
+    },
+    {
+      "he": "סה&quot;כ",
+      "ru": "общий",
+      "audio_file": "w_506.mp3",
+      "letter": "ס",
+      "level": 1
+    },
+    {
+      "he": "ערב",
+      "ru": "вечер",
+      "audio_file": "w_238.mp3",
+      "letter": "ע",
+      "level": 1
+    },
+    {
+      "he": "ולא",
+      "ru": "ни",
+      "audio_file": "w_507.mp3",
+      "letter": "ו",
+      "level": 1
+    },
+    {
+      "he": "חבל",
+      "ru": "веревка",
+      "audio_file": "w_508.mp3",
+      "letter": "ח",
+      "level": 1
+    },
+    {
+      "he": "שלם",
+      "ru": "весь",
+      "audio_file": "w_509.mp3",
+      "letter": "ש",
+      "level": 1
+    },
+    {
+      "he": "ריח",
+      "ru": "запах",
+      "audio_file": "w_297.mp3",
+      "letter": "ר",
+      "level": 1
+    },
+    {
+      "he": "נוף",
+      "ru": "вид",
+      "audio_file": "w_510.mp3",
+      "letter": "נ",
+      "level": 1
+    },
+    {
+      "he": "מחר",
+      "ru": "завтра",
+      "audio_file": "w_511.mp3",
+      "letter": "מ",
+      "level": 1
+    },
+    {
+      "he": "רעב",
+      "ru": "голодный",
+      "audio_file": "w_294.mp3",
+      "letter": "ר",
+      "level": 1
+    },
+    {
+      "he": "צמא",
+      "ru": "испытывающий жажду",
+      "audio_file": "w_512.mp3",
+      "letter": "צ",
+      "level": 1
+    },
+    {
+      "he": "חבר",
+      "ru": "друг",
+      "audio_file": "w_105.mp3",
+      "letter": "ח",
+      "level": 1
+    },
+    {
+      "he": "בת",
+      "ru": "дочь",
+      "audio_file": "w_023.mp3",
+      "letter": "ב",
+      "level": 1
+    },
+    {
+      "he": "בעל",
+      "ru": "муж",
+      "audio_file": "w_513.mp3",
+      "letter": "ב",
+      "level": 1
+    },
+    {
+      "he": "עט",
+      "ru": "ручка",
+      "audio_file": "w_514.mp3",
+      "letter": "ע",
+      "level": 1
+    },
+    {
+      "he": "בצל",
+      "ru": "лук",
+      "audio_file": "w_515.mp3",
+      "letter": "ב",
+      "level": 1
+    },
+    {
+      "he": "סלט",
+      "ru": "салат",
+      "audio_file": "w_218.mp3",
+      "letter": "ס",
+      "level": 1
+    },
+    {
+      "he": "עוף",
+      "ru": "курица",
+      "audio_file": "w_235.mp3",
+      "letter": "ע",
+      "level": 1
+    },
+    {
+      "he": "לחם",
+      "ru": "хлеб",
+      "audio_file": "w_164.mp3",
+      "letter": "ל",
+      "level": 1
+    },
+    {
+      "he": "מרק",
+      "ru": "суп",
+      "audio_file": "w_516.mp3",
+      "letter": "מ",
+      "level": 1
+    },
+    {
+      "he": "קפה",
+      "ru": "кофе",
+      "audio_file": "w_517.mp3",
+      "letter": "ק",
+      "level": 1
+    },
+    {
+      "he": "תה",
+      "ru": "чай",
+      "audio_file": "w_324.mp3",
+      "letter": "ת",
+      "level": 1
+    },
+    {
+      "he": "מיץ",
+      "ru": "сок",
+      "audio_file": "w_518.mp3",
+      "letter": "מ",
+      "level": 1
+    },
+    {
+      "he": "מלח",
+      "ru": "соль",
+      "audio_file": "w_185.mp3",
+      "letter": "מ",
+      "level": 1
+    },
+    {
+      "he": "טעם",
+      "ru": "вкус",
+      "audio_file": "w_519.mp3",
+      "letter": "ט",
+      "level": 1
+    },
+    {
+      "he": "תיק",
+      "ru": "сумка",
+      "audio_file": "w_327.mp3",
+      "letter": "ת",
+      "level": 1
+    }
+  ]
+}
