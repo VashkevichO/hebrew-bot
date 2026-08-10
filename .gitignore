@@ -8,6 +8,9 @@
 data/users.db
 data/*.db
 
+# Результат прогона тестов
+data/test_result.txt
+
 # ===== ЛОГИ =====
 # В логах могут быть URL с токеном
 bot.log

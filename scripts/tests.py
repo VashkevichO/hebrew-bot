@@ -1,12 +1,13 @@
 """
 Проверка: данные загружаются, пути к аудио существуют, функции возвращают результат.
 Запуск: python scripts/tests.py
-Результат: D:\AI\hebrew-bot\data\test_result.txt
+Результат: data/test_result.txt (рядом с данными проекта)
 """
 
-import json, os, sys, random
+import json, os, sys
 
-BASE = r'D:\AI\hebrew-bot'
+# Корень проекта = родитель папки scripts
+BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 errors = []
 log = []
 
@@ -85,7 +86,7 @@ except Exception as e:
     check(False, f'import error: {e}')
 
 # Summary
-result_path = r'D:\AI\hebrew-bot\data\test_result.txt'
+result_path = os.path.join(BASE, 'data', 'test_result.txt')
 with open(result_path, 'w', encoding='utf-8') as f:
     f.write('\n'.join(log) + '\n\n')
     f.write('='*40 + '\n')
