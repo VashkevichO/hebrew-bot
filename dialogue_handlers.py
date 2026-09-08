@@ -45,18 +45,32 @@ def _total_variants(dlg):
 
 # ===== Вспомогательное =====
 
+MAX_KEPT_VOICES = 50
+
+
 async def _send_voice(update: Update, context: ContextTypes.DEFAULT_TYPE, audio_path):
-    """Отправляет голосовое, удалив предыдущее голосовое в этой сессии."""
+    """Отправляет голосовое в диалоге и запоминает его для кнопки «🧹 Убрать звук».
+
+    В отличие от разделов букв/слов (там старая запись удаляется при новой),
+    здесь голосовые не удаляются автоматически — их можно переслушать.
+    Уборка — по кнопке dlg_clean.
+    """
     chat_id = update.effective_chat.id
-    last = context.user_data.pop("dlg_last_voice_id", None)
-    if last:
-        try:
-            await context.bot.delete_message(chat_id, last)
-        except Exception:
-            pass
     with open(audio_path, "rb") as f:
         msg = await context.bot.send_voice(chat_id, f)
-    context.user_data["dlg_last_voice_id"] = msg.message_id
+    voices = context.user_data.setdefault("dlg_voices", [])
+    voices.append(msg.message_id)
+    # держим не больше MAX_KEPT_VOICES: старые подчищаем
+    while len(voices) > MAX_KEPT_VOICES:
+        old = voices.pop(0)
+        try:
+            await context.bot.delete_message(chat_id, old)
+        except Exception:
+            pass
+
+
+def _voice_count(context):
+    return len(context.user_data.get("dlg_voices", []))
 
 
 def _format_dialogue(dlg, label, state):
@@ -79,8 +93,8 @@ def _format_dialogue(dlg, label, state):
     return "\n".join(lines)
 
 
-def _dialogue_keyboard(dlg, state, with_random=True):
-    """Клавиатура диалога: ▶ по вариантам (с родом), перевод, готово, корни, навигация."""
+def _dialogue_keyboard(dlg, state, with_random=True, voice_count=0):
+    """Клавиатура диалога: ▶ по вариантам (с родом), перевод, готово, уборка звука, корни."""
     kb = []
     # озвучка: отдельная кнопка на каждый варианта реплики
     line_btns = []
@@ -93,12 +107,15 @@ def _dialogue_keyboard(dlg, state, with_random=True):
             ))
     kb.append(line_btns)
 
-    # перевод + готово
+    # перевод + готово (+ уборка голосовых, если они есть)
     tr_label = "🇷🇺 Скрыть перевод" if state.get("tr") else "🇷🇺 Показать перевод"
-    kb.append([
+    row = [
         InlineKeyboardButton(tr_label, callback_data=f"dlg_tr_{dlg['id']}"),
         InlineKeyboardButton("✅ Готово", callback_data=f"dlg_done_{dlg['id']}"),
-    ])
+    ]
+    if voice_count:
+        row.append(InlineKeyboardButton(f"🧹 Убрать звук ({voice_count})", callback_data="dlg_clean"))
+    kb.append(row)
 
     # корни в диалоге
     found = find_roots_in_dialogue(dlg)
@@ -132,7 +149,7 @@ async def _show_dialogue(update, context, dlg, label, with_random=True, as_comma
     state = _get_state(context, dlg["id"])
     state["_label"] = label
     text = _format_dialogue(dlg, label, state)
-    kb = _dialogue_keyboard(dlg, state, with_random)
+    kb = _dialogue_keyboard(dlg, state, with_random, _voice_count(context))
 
     if as_command:
         await update.message.reply_text(text, reply_markup=kb)
@@ -226,7 +243,9 @@ async def dialogue_cb(update: Update, context: ContextTypes.DEFAULT_TYPE):
         # обновляем счётчик в сообщении
         rendered = _format_dialogue(dlg, state.get("_label", ""), state)
         try:
-            await query.edit_message_text(rendered, reply_markup=_dialogue_keyboard(dlg, state))
+            await query.edit_message_text(
+                rendered, reply_markup=_dialogue_keyboard(dlg, state, True, _voice_count(context))
+            )
         except Exception:
             pass
         return
@@ -242,8 +261,24 @@ async def dialogue_cb(update: Update, context: ContextTypes.DEFAULT_TYPE):
             label = state.get("_label", "")
             await query.edit_message_text(
                 _format_dialogue(dlg, label, state),
-                reply_markup=_dialogue_keyboard(dlg, state),
+                reply_markup=_dialogue_keyboard(dlg, state, True, _voice_count(context)),
             )
+        return
+
+    # --- убрать голосовые диалога ---
+    if data == "dlg_clean":
+        await query.answer()
+        chat_id = update.effective_chat.id
+        voices = context.user_data.pop("dlg_voices", [])
+        deleted = 0
+        for mid in voices:
+            try:
+                await context.bot.delete_message(chat_id, mid)
+                deleted += 1
+            except Exception:
+                pass
+        if deleted:
+            await query.answer(f"🧹 Убрано голосовых: {deleted}")
         return
 
     # --- готово (засчитывание) ---
