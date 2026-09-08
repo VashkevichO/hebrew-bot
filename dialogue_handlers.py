@@ -39,15 +39,6 @@ WHO_LABEL = {"a": "A", "b": "B"}
 GENDER_SYM = {"m": "♂", "f": "♀"}
 
 
-def _variant_text(v):
-    """Ивритский текст варианта + значок рода, если размечен."""
-    s = v["he"]
-    g = v.get("g")
-    if g in GENDER_SYM:
-        s = f"{s} {GENDER_SYM[g]}"
-    return s
-
-
 def _total_variants(dlg):
     return sum(len(line["variants"]) for line in dlg["lines"])
 
@@ -69,7 +60,7 @@ async def _send_voice(update: Update, context: ContextTypes.DEFAULT_TYPE, audio_
 
 
 def _format_dialogue(dlg, label, state):
-    """Текст диалога: роли, все родовые варианты полностью, перевод если включён."""
+    """Текст диалога: каждый родовой вариант отдельной строкой (B♂ / B♀)."""
     lines = [f"🎭 {dlg['title_ru']}", f"{label}"]
     played = set(state.get("played", []))
     total = _total_variants(dlg)
@@ -79,8 +70,10 @@ def _format_dialogue(dlg, label, state):
 
     for line in dlg["lines"]:
         who = WHO_LABEL[line["who"]]
-        texts = " / ".join(_variant_text(v) for v in line["variants"])
-        lines.append(f"{who}: {texts}")
+        for v in line["variants"]:
+            g = v.get("g")
+            role = who + (GENDER_SYM[g] if g in GENDER_SYM else "")
+            lines.append(f"{role}: {v['he']}")
         if state.get("tr"):
             lines.append(f"    📖 {line['ru']}")
     return "\n".join(lines)
