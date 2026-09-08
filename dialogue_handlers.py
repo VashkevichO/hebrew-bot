@@ -36,6 +36,21 @@ PAGE_SIZE = 10
 
 WHO_LABEL = {"a": "A", "b": "B"}
 
+GENDER_SYM = {"m": "♂", "f": "♀"}
+
+
+def _variant_text(v):
+    """Ивритский текст варианта + значок рода, если размечен."""
+    s = v["he"]
+    g = v.get("g")
+    if g in GENDER_SYM:
+        s = f"{s} {GENDER_SYM[g]}"
+    return s
+
+
+def _total_variants(dlg):
+    return sum(len(line["variants"]) for line in dlg["lines"])
+
 
 # ===== Вспомогательное =====
 
@@ -54,35 +69,35 @@ async def _send_voice(update: Update, context: ContextTypes.DEFAULT_TYPE, audio_
 
 
 def _format_dialogue(dlg, label, state):
-    """Текст диалога: роли, варианты, перевод если включён."""
+    """Текст диалога: роли, все родовые варианты полностью, перевод если включён."""
     lines = [f"🎭 {dlg['title_ru']}", f"{label}"]
     played = set(state.get("played", []))
-    total = len(dlg["lines"])
+    total = _total_variants(dlg)
     if played:
-        lines.append(f"🔊 Прослушано: {len(played)} из {total}")
+        lines.append(f"🔊 Озвучено: {len(played)} из {total}")
     lines.append("")
 
-    for i, line in enumerate(dlg["lines"]):
+    for line in dlg["lines"]:
         who = WHO_LABEL[line["who"]]
-        main = line["variants"][0]
-        mark = "☑️ " if i in played else ""
-        lines.append(f"{who}: {mark}{main['he']}")
-        for extra in line["variants"][1:]:
-            note = f" — {extra['note']}" if extra.get("note") else ""
-            lines.append(f"    · {extra['he']}{note}")
+        texts = " / ".join(_variant_text(v) for v in line["variants"])
+        lines.append(f"{who}: {texts}")
         if state.get("tr"):
             lines.append(f"    📖 {line['ru']}")
     return "\n".join(lines)
 
 
 def _dialogue_keyboard(dlg, state, with_random=True):
-    """Клавиатура диалога: ▶, перевод, готово, корни, навигация."""
+    """Клавиатура диалога: ▶ по вариантам (с родом), перевод, готово, корни, навигация."""
     kb = []
-    # озвучка реплик
-    line_btns = [
-        InlineKeyboardButton(f"▶{i + 1}", callback_data=f"dlg_audio_{dlg['id']}_{i}")
-        for i in range(len(dlg["lines"]))
-    ]
+    # озвучка: отдельная кнопка на каждый варианта реплики
+    line_btns = []
+    for i, line in enumerate(dlg["lines"]):
+        for vi, v in enumerate(line["variants"]):
+            g = v.get("g")
+            label = f"▶{i + 1}" + (f" {GENDER_SYM[g]}" if g in GENDER_SYM else "")
+            line_btns.append(InlineKeyboardButton(
+                label, callback_data=f"dlg_audio_{dlg['id']}_{i}_{vi}"
+            ))
     kb.append(line_btns)
 
     # перевод + готово
@@ -192,26 +207,30 @@ async def dialogue_cb(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await _show_dialogue(update, context, dlg, "🎲 Случайный диалог", with_random=True)
         return
 
-    # --- озвучка реплики ---
+    # --- озвучка варианта реплики ---
     if data.startswith("dlg_audio_"):
         await query.answer()
-        _, _, did, idx = data.split("_", 3)
-        idx = int(idx)
+        parts = data.split("_", 3)  # dlg, audio, did, "line_var"
+        did = parts[2]
+        line_idx, var_idx = (int(x) for x in parts[3].split("_"))
         dlg = get_dialogue_by_id(did)
-        if not dlg or idx >= len(dlg["lines"]):
+        if not dlg or line_idx >= len(dlg["lines"]):
+            return
+        line = dlg["lines"][line_idx]
+        if var_idx >= len(line["variants"]):
             return
         state = _get_state(context, did)
-        if idx not in state["played"]:
-            state["played"].append(idx)
-        line = dlg["lines"][idx]
-        variant = line["variants"][0]
+        key = f"{line_idx}_{var_idx}"
+        if key not in state["played"]:
+            state["played"].append(key)
+        variant = line["variants"][var_idx]
         text = variant.get("tts") or variant["he"]
         try:
             path = await generate_audio(text)
             await _send_voice(update, context, path)
         except Exception as e:
             await query.message.reply_text(f"Не удалось озвучить: {e}")
-        # обновляем галочки в сообщении
+        # обновляем счётчик в сообщении
         rendered = _format_dialogue(dlg, state.get("_label", ""), state)
         try:
             await query.edit_message_text(rendered, reply_markup=_dialogue_keyboard(dlg, state))
@@ -242,7 +261,7 @@ async def dialogue_cb(update: Update, context: ContextTypes.DEFAULT_TYPE):
         if not dlg:
             return
         state = _get_state(context, did)
-        total = len(dlg["lines"])
+        total = _total_variants(dlg)
         played_all = len(state.get("played", [])) >= total
         status = "full" if played_all else "partial"
 
@@ -257,8 +276,8 @@ async def dialogue_cb(update: Update, context: ContextTypes.DEFAULT_TYPE):
             left = total - len(state.get("played", []))
             msg = (
                 f"◐ «{dlg['title_ru']}» отмечен.\n"
-                f"Осталось непрослушанных реплик: {left}.\n"
-                "Прослушай все (▶) и нажми «Готово» ещё раз — станет ✅."
+                f"Осталось не озвучено: {left}.\n"
+                "Прослушай все варианты (▶) и нажми «Готово» ещё раз — станет ✅."
             )
         await query.edit_message_text(
             msg,
