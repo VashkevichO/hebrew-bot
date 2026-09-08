@@ -131,6 +131,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         [InlineKeyboardButton("🎭 Диалоги", callback_data="menu_dialogues")],
         [InlineKeyboardButton("🌱 Корни", callback_data="menu_roots")],
         [InlineKeyboardButton("📊 Мой прогресс", callback_data="menu_progress")],
+        [InlineKeyboardButton("☕ Поддержать проект", callback_data="menu_donate")],
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
 
@@ -867,6 +868,42 @@ async def scramble_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     return
 
 
+async def donate_cb(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """☕ Поддержать проект: QR + ссылка на чаевые (дарение, без проверки оплаты)."""
+    query = update.callback_query
+    await query.answer()
+
+    text = (
+        "🙏 **Поддержать проект**\n\n"
+        "Спасибо, что пользуетесь ботом! Я учу иврит с нуля сама и создаю "
+        "инструмент, который помогает закреплять сложные моменты увлекательно и эффективно.\n\n"
+        "**На что пойдут ваши чаевые:**\n"
+        "• Аренда сервера (VPS), где живёт бот\n"
+        "• Сервисы для озвучки и генерации контента\n"
+        "• Вдохновение и время на новые диалоги, уроки и фичи\n\n"
+        "Если бот приносит пользу — поддержите его развитие любой суммой. "
+        "Это займёт минуту, а поможет проекту расти. Для меня это знак, "
+        "что я двигаюсь в правильном направлении.\n\n"
+        "💚 Спасибо, что вы со мной!"
+    )
+
+    btns = []
+    donate_url = os.getenv("DONATE_URL", "").strip()
+    if donate_url:
+        btns.append([InlineKeyboardButton("💳 Перевести чаевые", url=donate_url)])
+    btns.append([InlineKeyboardButton("🔙 В меню", callback_data="menu_main")])
+    kb = InlineKeyboardMarkup(btns)
+
+    qr_path = ASSETS_DIR / "donate_qr.png"
+    if qr_path.exists():
+        with open(qr_path, "rb") as f:
+            await context.bot.send_photo(
+                update.effective_chat.id, f, caption=text, reply_markup=kb, parse_mode="Markdown"
+            )
+    else:
+        await update.effective_chat.send_message(text, reply_markup=kb, parse_mode="Markdown")
+
+
 async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     text = (
         "📚 **Hebrew Alphabet Bot**\n\n"
@@ -901,6 +938,8 @@ def main():
     app.add_handler(CommandHandler("dialogue", cmd_dialogue))
     app.add_handler(CommandHandler("dialogue_today", cmd_dialogue_today))
     app.add_handler(CommandHandler("root", cmd_root))
+    # Поддержать проект — раньше menu_handler, чтобы menu_donate не ушёл в общее меню
+    app.add_handler(CallbackQueryHandler(donate_cb, pattern="^menu_donate$"))
     app.add_handler(CallbackQueryHandler(
         dialogue_cb,
         pattern=r"^(menu_dialogues|menu_roots|dlg_|roots_page_|root_show_|cat_root_)",
