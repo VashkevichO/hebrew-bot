@@ -136,7 +136,12 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     reply_markup = InlineKeyboardMarkup(keyboard)
 
     if update.callback_query:
-        await update.callback_query.edit_message_text(text, reply_markup=reply_markup, parse_mode="Markdown")
+        try:
+            await update.callback_query.edit_message_text(text, reply_markup=reply_markup, parse_mode="Markdown")
+        except Exception:
+            # Сообщение-медиа (например фото доната): текст не редактируется,
+            # отправляем меню новым сообщением.
+            await update.effective_chat.send_message(text, reply_markup=reply_markup, parse_mode="Markdown")
     else:
         await update.message.reply_text(text, reply_markup=reply_markup, parse_mode="Markdown")
 
