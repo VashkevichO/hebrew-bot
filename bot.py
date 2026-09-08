@@ -60,6 +60,13 @@ from utils.logic import (
 )
 from utils.tts import generate_word_audio
 
+from dialogue_handlers import (
+    cmd_dialogue,
+    cmd_dialogue_today,
+    cmd_root,
+    dialogue_cb,
+)
+
 logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO
 )
@@ -121,6 +128,8 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         [InlineKeyboardButton("🔊 Собери слово (ур.2)", callback_data="menu_build")],
         [InlineKeyboardButton("🔢 Сосчитай буквы", callback_data="menu_count")],
         # [InlineKeyboardButton("🌀 Перепутанные буквы (ур.3)", callback_data="menu_scramble")],
+        [InlineKeyboardButton("🎭 Диалоги", callback_data="menu_dialogues")],
+        [InlineKeyboardButton("🌱 Корни", callback_data="menu_roots")],
         [InlineKeyboardButton("📊 Мой прогресс", callback_data="menu_progress")],
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
@@ -863,7 +872,10 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
         "📚 **Hebrew Alphabet Bot**\n\n"
         "**Команды:**\n"
         "/start — Главное меню\n"
-        "/help — Эта справка\n\n"
+        "/help — Эта справка\n"
+        "/dialogue — случайный диалог\n"
+        "/dialogue_today — диалог этой недели\n"
+        "/root <корень или слово> — карточка корня (напр. /root שלום)\n\n"
         "**Уровни:**\n"
         "🔤 Алфавит — звук→буква, буква→звук, соседи по алфавиту\n"
         "🔢 Сосчитай буквы — найди букву в строке\n"
@@ -884,6 +896,15 @@ def main():
 
     app.add_handler(CommandHandler("start", start))
     app.add_handler(CommandHandler("help", help_command))
+    # Диалоги и корни: регистрируем РАНЬШЕ menu_handler,
+    # чтобы menu_dialogues / menu_roots не попадали в общее меню.
+    app.add_handler(CommandHandler("dialogue", cmd_dialogue))
+    app.add_handler(CommandHandler("dialogue_today", cmd_dialogue_today))
+    app.add_handler(CommandHandler("root", cmd_root))
+    app.add_handler(CallbackQueryHandler(
+        dialogue_cb,
+        pattern=r"^(menu_dialogues|menu_roots|dlg_|roots_page_|root_show_)",
+    ))
     app.add_handler(CallbackQueryHandler(menu_handler, pattern=r"^(menu_|explore_)"))
     app.add_handler(CallbackQueryHandler(quiz_handler, pattern=r"^quiz_"))
     app.add_handler(CallbackQueryHandler(answer_handler, pattern=r"^ans_"))

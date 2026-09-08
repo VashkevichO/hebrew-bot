@@ -30,3 +30,13 @@ assets/sounds/
 
 # Картинки письменных букв (сгенерированы из шрифта Gveret Levin)
 assets/script/
+
+# ===== РАБОЧИЕ ЧЕРНОВИКИ (не для репозитория) =====
+# Внутренние документы для обсуждений (не часть кода/данных бота)
+PROJECT_BRIEF.md
+build_dialogues_preview.py
+data/dialogues_list_ru.md
+data/dialogues_part1_preview.md
+data/dialogues_draft.json
+data/phrases_draft.json
+songs_pilot/
