@@ -903,7 +903,7 @@ def main():
     app.add_handler(CommandHandler("root", cmd_root))
     app.add_handler(CallbackQueryHandler(
         dialogue_cb,
-        pattern=r"^(menu_dialogues|menu_roots|dlg_|roots_page_|root_show_)",
+        pattern=r"^(menu_dialogues|menu_roots|dlg_|roots_page_|root_show_|cat_root_)",
     ))
     app.add_handler(CallbackQueryHandler(menu_handler, pattern=r"^(menu_|explore_)"))
     app.add_handler(CallbackQueryHandler(quiz_handler, pattern=r"^quiz_"))

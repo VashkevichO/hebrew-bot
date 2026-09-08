@@ -97,7 +97,7 @@ def _dialogue_keyboard(dlg, state, with_random=True):
     if found:
         root_btns = [
             InlineKeyboardButton(
-                f"🌱 {r['root']}", callback_data=f"root_show_{root_letters(r['root'])}"
+                f"🌱 {r['root']}", callback_data=f"dlg_root_{dlg['id']}_{root_letters(r['root'])}"
             )
             for r in found[:6]
         ]
@@ -179,26 +179,8 @@ async def dialogue_cb(update: Update, context: ContextTypes.DEFAULT_TYPE):
     data = query.data
     user_id = update.effective_user.id
 
-    # --- подменю диалогов ---
-    if data == "menu_dialogues":
-        await query.answer()
-        total = len(load_dialogues())
-        dlg, info = get_dialogue_for_date()
-        await query.edit_message_text(
-            f"🎭 **Диалоги**\n\nКаталог: {total} диалогов.\n"
-            f"На этой неделе: **«{dlg['title_ru']}»** (неделя {info['week'] + 1}).\n\n"
-            "Диалог обновляется раз в неделю.",
-            reply_markup=InlineKeyboardMarkup([
-                [InlineKeyboardButton("🗓 Диалог недели", callback_data="dlg_week")],
-                [InlineKeyboardButton("🎲 Случайный", callback_data="dlg_random")],
-                [InlineKeyboardButton("🌱 Корни", callback_data="menu_roots")],
-                [InlineKeyboardButton("🔙 В меню", callback_data="menu_main")],
-            ]),
-        )
-        return
-
-    # --- показ диалога недели / случайного ---
-    if data == "dlg_week":
+    # --- раздел «Диалоги»: сразу показываем диалог недели ---
+    if data in ("menu_dialogues", "dlg_week"):
         dlg, info = get_dialogue_for_date()
         total = len(load_dialogues())
         label = f"🗓 Неделя {info['week'] + 1} · диалог {info['index'] + 1} из {total}"
@@ -207,7 +189,7 @@ async def dialogue_cb(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     if data == "dlg_random":
         dlg = random.choice(load_dialogues())
-        await _show_dialogue(update, context, dlg, "🎲 Случайный диалог", with_random=False)
+        await _show_dialogue(update, context, dlg, "🎲 Случайный диалог", with_random=True)
         return
 
     # --- озвучка реплики ---
@@ -298,7 +280,37 @@ async def dialogue_cb(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await _show_roots_page(update, context, page)
         return
 
-    # --- карточка корня ---
+    # --- карточка корня из диалога (с возвратом) ---
+    if data.startswith("dlg_root_"):
+        await query.answer()
+        rest = data[len("dlg_root_"):]
+        did, letters = rest.split("_", 1)
+        root = find_root_by_query(letters)
+        if root:
+            await _send_root_card(update, context, root, back_cb=f"dlg_open_{did}")
+        return
+
+    # --- карточка корня из каталога (с возвратом на страницу) ---
+    if data.startswith("cat_root_"):
+        await query.answer()
+        rest = data[len("cat_root_"):]
+        page, letters = rest.split("_", 1)
+        root = find_root_by_query(letters)
+        if root:
+            await _send_root_card(update, context, root, back_cb=f"roots_page_{page}")
+        return
+
+    # --- возврат к диалогу из карточки корня ---
+    if data.startswith("dlg_open_"):
+        did = data[len("dlg_open_"):]
+        dlg = get_dialogue_by_id(did)
+        if dlg:
+            state = _get_state(context, did)
+            label = state.get("_label", "")
+            await _show_dialogue(update, context, dlg, label, with_random=True)
+        return
+
+    # --- карточка корня (фолбэк) ---
     if data.startswith("root_show_"):
         await query.answer()
         letters = data.split("_", 2)[2]
@@ -321,10 +333,10 @@ async def _show_roots_page(update, context, page):
     await query.answer()
 
     lines = [f"🌱 **Корни иврита** · {start + 1}–{start + len(chunk)} из {total}", ""]
-    for i, r in enumerate(chunk, start=start + 1):
+    for r in chunk:
         words_sample = ", ".join(w["he"] for w in r["words"][:2])
-        lines.append(f"{i}. **{r['root']}** — {r['meaning']}")
-        lines.append(f"   {words_sample}")
+        lines.append(f"• **{r['root']}** — {r['meaning']}")
+        lines.append(f"  {words_sample}")
     lines.append("")
     lines.append("Корень — это «каркас» слова. Нажми на корень, чтобы увидеть слова.")
 
@@ -332,7 +344,9 @@ async def _show_roots_page(update, context, page):
     kb = []
     row = []
     for r in chunk:
-        row.append(InlineKeyboardButton(r["root"], callback_data=f"root_show_{root_letters(r['root'])}"))
+        row.append(InlineKeyboardButton(
+            r["root"], callback_data=f"cat_root_{page}_{root_letters(r['root'])}"
+        ))
         if len(row) == 3:
             kb.append(row)
             row = []
@@ -354,17 +368,22 @@ async def _show_roots_page(update, context, page):
     )
 
 
-async def _send_root_card(update, context, root, as_command=False):
-    """Карточка корня: значение, слова, кнопка в каталог."""
+async def _send_root_card(update, context, root, as_command=False, back_cb=None):
+    """Карточка корня: значение, слова, кнопки назад/каталог/собери слово."""
     lines = [f"🌱 **Корень: {root['root']}**", f"📖 {root['meaning']}", ""]
     for i, w in enumerate(root["words"], start=1):
         lines.append(f"{i}. **{w['he']}** — {w['ru']}")
     lines.append("")
     lines.append("💡 Многие слова иврита собраны из трёх букв корня.")
 
-    kb = InlineKeyboardMarkup([[
-        InlineKeyboardButton("📚 Все корни", callback_data="menu_roots"),
-    ]])
+    btns = []
+    if back_cb:
+        btns.append(InlineKeyboardButton("🔙 Назад", callback_data=back_cb))
+    btns.append(InlineKeyboardButton("📚 Все корни", callback_data="menu_roots"))
+    kb = InlineKeyboardMarkup([
+        btns,
+        [InlineKeyboardButton("🔊 Собери слово", callback_data="menu_build")],
+    ])
 
     if as_command:
         await update.message.reply_text("\n".join(lines), reply_markup=kb, parse_mode="Markdown")
