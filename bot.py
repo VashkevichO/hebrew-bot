@@ -67,6 +67,7 @@ from dialogue_handlers import (
     cmd_root,
     dialogue_cb,
 )
+from training_handlers import training_cb
 
 logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO
@@ -236,16 +237,6 @@ async def menu_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
             )
         else:
             await query.edit_message_text("Раздел не найден.")
-
-    elif data in ("menu_verbs", "menu_sentence"):
-        # временная заглушка: модули подключаются следующими этапами
-        await query.edit_message_text(
-            "🚧 **В разработке**\n\nЭтот модуль скоро появится. Загляни позже!",
-            reply_markup=InlineKeyboardMarkup([
-                [InlineKeyboardButton("🔙 Назад", callback_data="menu_main")],
-            ]),
-            parse_mode="Markdown",
-        )
 
     elif data == "menu_neighbors":
         keyboard = [
@@ -1023,6 +1014,11 @@ def main():
     app.add_handler(CommandHandler("root", cmd_root))
     # Поддержать проект — раньше menu_handler, чтобы menu_donate не ушёл в общее меню
     app.add_handler(CallbackQueryHandler(donate_cb, pattern="^menu_donate$"))
+    # Тренировки (глаголы / предложения) — раньше menu_handler
+    app.add_handler(CallbackQueryHandler(
+        training_cb,
+        pattern=r"^(menu_verbs|menu_sentence|vrb_|sent_)",
+    ))
     app.add_handler(CallbackQueryHandler(
         dialogue_cb,
         pattern=r"^(menu_dialogues|menu_roots|dlg_|roots_page_|root_show_|cat_root_)",

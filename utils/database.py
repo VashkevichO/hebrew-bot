@@ -57,9 +57,18 @@ def init_db():
         CREATE TABLE IF NOT EXISTS user_settings (
             user_id INTEGER PRIMARY KEY,
             dialogue_daily INTEGER DEFAULT 1,
+            verbs_intro INTEGER DEFAULT 0,
+            sentence_intro INTEGER DEFAULT 0,
             FOREIGN KEY (user_id) REFERENCES users(user_id)
         );
     """)
+
+    # Лёгкая миграция для уже существующих таблиц (добавляем новые колонки)
+    cols = [r["name"] for r in cursor.execute("PRAGMA table_info(user_settings)")]
+    if "verbs_intro" not in cols:
+        cursor.execute("ALTER TABLE user_settings ADD COLUMN verbs_intro INTEGER DEFAULT 0")
+    if "sentence_intro" not in cols:
+        cursor.execute("ALTER TABLE user_settings ADD COLUMN sentence_intro INTEGER DEFAULT 0")
     conn.commit()
     conn.close()
 
@@ -246,3 +255,40 @@ def set_dialogue_daily(user_id, enabled):
     )
     conn.commit()
     conn.close()
+
+
+# ===== Флаги вводных экранов модулей =====
+
+_INTRO_FIELDS = ("verbs_intro", "sentence_intro")
+
+
+def get_intro_seen(user_id, field):
+    """Видел ли пользователь вводный экран модуля (verbs_intro / sentence_intro)."""
+    assert field in _INTRO_FIELDS, f"неизвестное поле {field}"
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute(
+        f"SELECT {field} FROM user_settings WHERE user_id = ?",
+        (user_id,),
+    )
+    row = cursor.fetchone()
+    conn.close()
+    return bool(row[field]) if row else False
+
+
+def mark_intro_seen(user_id, field):
+    """Отмечает, что вводный экран модуля показан."""
+    assert field in _INTRO_FIELDS, f"неизвестное поле {field}"
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute(
+        f"""
+        INSERT INTO user_settings (user_id, {field})
+        VALUES (?, 1)
+        ON CONFLICT(user_id) DO UPDATE SET {field} = 1
+        """,
+        (user_id,),
+    )
+    conn.commit()
+    conn.close()
+

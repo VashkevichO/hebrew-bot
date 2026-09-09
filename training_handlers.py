@@ -1,0 +1,432 @@
+"""Тренировки: «Глаголы» (спряжение) и «Собери предложение».
+
+Callback-данные:
+  menu_verbs / menu_sentence — вход в модуль (вводный экран при первом заходе)
+  vrb_start   — начать сессию глаголов (5 вопросов)
+  vrb_ans_<i> — ответ: i = индекс варианта
+  vrb_next    — следующий вопрос / итог
+  vrb_hint    — справка «настоящее время»
+  vrb_resume  — вернуться к вопросу после подсказки
+  vrb_again   — повторить сессию
+  sent_start / sent_add_<i> / sent_undo / sent_check /
+  sent_next / sent_retry / sent_reveal / sent_hint / sent_resume
+"""
+import random
+
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
+from telegram.ext import ContextTypes
+
+from utils import sentences as sentences_lib
+from utils import verbs as verbs_lib
+from utils.database import add_points, get_intro_seen, mark_intro_seen
+from utils.grammar import get_section, render_section
+
+VERB_QUESTIONS = 5
+SENTENCE_POINTS = 15
+
+
+def _menu_kb(extra_rows, back_cb="menu_main"):
+    rows = [list(r) for r in extra_rows]
+    rows.append([InlineKeyboardButton("🔙 В меню", callback_data=back_cb)])
+    return InlineKeyboardMarkup(rows)
+
+
+# ===== Вводные экраны =====
+
+VERB_INTRO_TEXT = (
+    "🏛 **Глаголы**\n\n"
+    "Глаголы — это сердце языка. В иврите они строятся из **корней** "
+    "(ты уже видел их в разделе «Слова и корни»). Корень + биньян "
+    "(пааль, пиэль, хифиль) дают значение.\n\n"
+    "Здесь ты потренируешься спрягать глаголы в **настоящем времени**: "
+    "по родам и числам.\n\n"
+    "📖 Если что-то непонятно — жми «ℹ️ Подсказка» во время тренировки."
+)
+
+SENTENCE_INTRO_TEXT = (
+    "🧩 **Собери предложение**\n\n"
+    "В иврите базовый порядок слов: **кто + что делает + что / где**. "
+    "Подлежащее — имя или местоимение, к нему глагол в нужной форме.\n\n"
+    "Тебе дан перевод на русский — собери предложение из слов-кнопок. "
+    "⚠️ Внимание: среди слов есть **лишние**!\n\n"
+    "📖 О порядке слов — «Справка» → «Порядок слов»."
+)
+
+
+async def _show_intro_or_start(update, context, intro_key, intro_text, start_cb):
+    user_id = update.effective_user.id
+    query = update.callback_query
+    await query.answer()
+
+    if not get_intro_seen(user_id, intro_key):
+        mark_intro_seen(user_id, intro_key)
+        kb = _menu_kb([[InlineKeyboardButton("▶ Начать", callback_data=start_cb)]])
+        await query.edit_message_text(intro_text, reply_markup=kb, parse_mode="Markdown")
+    else:
+        # сразу запускаем модуль
+        if start_cb == "vrb_start":
+            await _start_verbs(update, context)
+        else:
+            await _start_sentence(update, context)
+
+
+# ===== ГЛАГОЛЫ =====
+
+async def _start_verbs(update, context):
+    context.user_data["vrb"] = {
+        "total": VERB_QUESTIONS,
+        "answered": 0,
+        "correct": 0,
+        "last_q": None,
+        "last_ok": None,
+    }
+    await _next_verb_question(update, context)
+
+
+def _verb_question_kb(session):
+    q = session["last_q"]
+    rows = []
+    # варианты по 2 в ряд
+    opts = q["options"]
+    pairs = [opts[i:i + 2] for i in range(0, len(opts), 2)]
+    for pair in pairs:
+        row = []
+        for opt in pair:
+            idx = q["options"].index(opt)
+            row.append(InlineKeyboardButton(opt, callback_data=f"vrb_ans_{idx}"))
+        rows.append(row)
+    rows.append([
+        InlineKeyboardButton("ℹ️ Подсказка", callback_data="vrb_hint"),
+        InlineKeyboardButton("⏹ Выйти", callback_data="menu_main"),
+    ])
+    return InlineKeyboardMarkup(rows)
+
+
+def _verb_question_text(q, session):
+    verb = q["verb"]
+    return (
+        f"🏛 **Спряжение глагола**  ({session['answered'] + 1}/{session['total']})\n\n"
+        f"Глагол: **{verb['infinitive']}** — {verb['meaning']}\n"
+        f"Местоимение: **{q['pronoun_he']}** ({q['pronoun_ru']})\n\n"
+        "Выбери правильную форму:"
+    )
+
+
+async def _render_verb_question(update, context):
+    query = update.callback_query
+    session = context.user_data["vrb"]
+    q = session["last_q"]
+    await query.edit_message_text(
+        _verb_question_text(q, session),
+        reply_markup=_verb_question_kb(session),
+        parse_mode="Markdown",
+    )
+
+
+async def _next_verb_question(update, context):
+    session = context.user_data["vrb"]
+    if session["answered"] >= session["total"]:
+        await _verb_finish(update, context)
+        return
+    session["last_q"] = verbs_lib.build_question()
+    session["last_ok"] = None
+    await _render_verb_question(update, context)
+
+
+async def _verb_finish(update, context):
+    query = update.callback_query
+    session = context.user_data["vrb"]
+    total = session["total"]
+    correct = session["correct"]
+    text = (
+        f"🏁 **Тренировка окончена!**\n\n"
+        f"Правильных ответов: **{correct} из {total}**"
+    )
+    if correct == total:
+        text += "\n\n🎉 Отлично, всё верно!"
+    elif correct >= total // 2:
+        text += "\n\n💪 Хорошо! Ещё немного — и будет идеально."
+    else:
+        text += "\n\n📖 Загляни в «Справку» → «Настоящее время» и попробуй ещё раз."
+    kb = _menu_kb([
+        [InlineKeyboardButton("🔁 Ещё раз", callback_data="vrb_start"),
+         InlineKeyboardButton("📖 Настоящее время", callback_data="vrb_hint")],
+    ])
+    await query.edit_message_text(text, reply_markup=kb, parse_mode="Markdown")
+
+
+async def _verb_answer(update, context, answer_idx):
+    query = update.callback_query
+    session = context.user_data.get("vrb")
+    if not session or not session.get("last_q"):
+        await query.answer("Начни тренировку заново")
+        return
+    q = session["last_q"]
+    user_id = update.effective_user.id
+
+    if answer_idx == q["correct_index"]:
+        session["correct"] += 1
+        session["last_ok"] = True
+        add_points(user_id, 10)
+        explanation = verbs_lib.explain_answer(q["pronoun_he"], q["correct"])
+        text = (
+            f"✅ **Верно!** «{q['correct']}» — правильная форма.\n\n"
+            f"💡 {explanation}"
+        )
+    else:
+        session["last_ok"] = False
+        explanation = verbs_lib.explain_answer(q["pronoun_he"], q["correct"])
+        text = (
+            f"❌ Неверно.\nПравильно: **«{q['correct']}»**.\n\n"
+            f"💡 {explanation}"
+        )
+    session["answered"] += 1
+
+    kb = _menu_kb([[InlineKeyboardButton("▶ Дальше", callback_data="vrb_next")]])
+    await query.edit_message_text(text, reply_markup=kb, parse_mode="Markdown")
+
+
+async def _verb_hint(update, context):
+    query = update.callback_query
+    await query.answer()
+    section = get_section("present_tense")
+    if section:
+        text = render_section(section)
+    else:
+        text = "Раздел не найден"
+    kb = _menu_kb([[InlineKeyboardButton("🔙 К вопросу", callback_data="vrb_resume")]])
+    await query.edit_message_text(text, reply_markup=kb, parse_mode="Markdown")
+
+
+# ===== СОБЕРИ ПРЕДЛОЖЕНИЕ =====
+
+async def _start_sentence(update, context):
+    ex = sentences_lib.random_exercise()
+    context.user_data["sent"] = {
+        "ex": ex,
+        "available": sentences_lib.shuffled_words(ex),
+        "selected": [],
+    }
+    await _render_sentence(update, context)
+
+
+def _sentence_kb(session, with_actions=True):
+    ex = session["ex"]
+    rows = []
+    # слова-кнопки по 3 в ряд
+    avail = session["available"]
+    for i in range(0, len(avail), 3):
+        row = [
+            InlineKeyboardButton(w, callback_data=f"sent_add_{i + j}")
+            for j, w in enumerate(avail[i:i + 3])
+        ]
+        rows.append(row)
+
+    if with_actions:
+        actions = [InlineKeyboardButton("↩️ Отменить", callback_data="sent_undo")]
+        if session["selected"]:
+            actions.append(InlineKeyboardButton("✅ Проверить", callback_data="sent_check"))
+        rows.append(actions)
+        rows.append([
+            InlineKeyboardButton("ℹ️ Подсказка", callback_data="sent_hint"),
+            InlineKeyboardButton("⏭ Пропустить", callback_data="sent_next"),
+            InlineKeyboardButton("🔙 В меню", callback_data="menu_main"),
+        ])
+    return InlineKeyboardMarkup(rows)
+
+
+async def _render_sentence(update, context, edit=True):
+    query = update.callback_query
+    session = context.user_data["sent"]
+    ex = session["ex"]
+    selected = session["selected"]
+
+    lines = [
+        "🧩 **Собери предложение**",
+        f"Перевод: «{ex['ru_translation']}»",
+        "",
+    ]
+    if selected:
+        lines.append(f"Ваше предложение: **{' '.join(selected)}**")
+    else:
+        lines.append("Ваше предложение: _нажимай слова по порядку_")
+    lines.append("")
+    lines.append("⚠️ Среди слов есть лишние!")
+
+    if edit:
+        await query.edit_message_text(
+            "\n".join(lines),
+            reply_markup=_sentence_kb(session),
+            parse_mode="Markdown",
+        )
+
+
+async def _sentence_add(update, context, idx):
+    query = update.callback_query
+    session = context.user_data.get("sent")
+    if not session:
+        return
+    avail = session["available"]
+    if 0 <= idx < len(avail):
+        word = avail.pop(idx)
+        session["selected"].append(word)
+    await _render_sentence(update, context)
+
+
+async def _sentence_undo(update, context):
+    query = update.callback_query
+    session = context.user_data.get("sent")
+    if not session:
+        return
+    if session["selected"]:
+        word = session["selected"].pop()
+        session["available"].insert(random.randint(0, len(session["available"])), word)
+    await _render_sentence(update, context)
+
+
+async def _sentence_check(update, context):
+    query = update.callback_query
+    session = context.user_data.get("sent")
+    if not session or not session["selected"]:
+        return
+    user_id = update.effective_user.id
+    result = sentences_lib.check_sentence(session["ex"], session["selected"])
+
+    if result["ok"]:
+        add_points(user_id, SENTENCE_POINTS)
+        text = (
+            f"✅ **Правильно!** +{SENTENCE_POINTS} очков\n\n"
+            f"💬 **{' '.join(session['selected'])}**"
+        )
+        kb = _menu_kb([
+            [InlineKeyboardButton("▶ Ещё предложение", callback_data="sent_next"),
+             InlineKeyboardButton("🔁 Это же", callback_data="sent_start")],
+        ])
+    else:
+        text = f"❌ **Не совсем.**\n\n{result['text']}"
+        kb = _menu_kb([
+            [InlineKeyboardButton("🔁 Ещё попытка", callback_data="sent_retry")],
+            [InlineKeyboardButton("👁 Показать ответ", callback_data="sent_reveal")],
+            [InlineKeyboardButton("⏭ Следующее", callback_data="sent_next")],
+        ])
+    await query.edit_message_text(text, reply_markup=kb, parse_mode="Markdown")
+
+
+async def _sentence_retry(update, context):
+    session = context.user_data.get("sent")
+    if session:
+        session["available"] = sentences_lib.shuffled_words(session["ex"])
+        session["selected"] = []
+    await _render_sentence(update, context)
+
+
+async def _sentence_reveal(update, context):
+    query = update.callback_query
+    session = context.user_data.get("sent")
+    if not session:
+        return
+    ex = session["ex"]
+    answer = " ".join(ex["correct_patterns"][0])
+    text = f"👁 Правильное предложение:\n\n**{answer}**\n\n_{ex['ru_translation']}_"
+    kb = _menu_kb([
+        [InlineKeyboardButton("▶ Ещё предложение", callback_data="sent_next")],
+    ])
+    await query.edit_message_text(text, reply_markup=kb, parse_mode="Markdown")
+
+
+async def _sentence_next(update, context):
+    query = update.callback_query
+    ex = sentences_lib.random_exercise()
+    context.user_data["sent"] = {
+        "ex": ex,
+        "available": sentences_lib.shuffled_words(ex),
+        "selected": [],
+    }
+    await _render_sentence(update, context)
+
+
+async def _sentence_hint(update, context):
+    query = update.callback_query
+    await query.answer()
+    section = get_section("word_order")
+    text = render_section(section) if section else "Раздел не найден"
+    kb = _menu_kb([[InlineKeyboardButton("🔙 К упражнению", callback_data="sent_resume")]])
+    await query.edit_message_text(text, reply_markup=kb, parse_mode="Markdown")
+
+
+async def _sentence_resume(update, context):
+    await _render_sentence(update, context)
+
+
+# ===== Диспетчер =====
+
+async def training_cb(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    data = update.callback_query.data
+
+    # --- вход в модули (с вводным экраном) ---
+    if data == "menu_verbs":
+        await _show_intro_or_start(update, context, "verbs_intro", VERB_INTRO_TEXT, "vrb_start")
+        return
+    if data == "menu_sentence":
+        await _show_intro_or_start(update, context, "sentence_intro", SENTENCE_INTRO_TEXT, "sent_start")
+        return
+
+    # --- глаголы ---
+    if data == "vrb_start":
+        await update.callback_query.answer()
+        await _start_verbs(update, context)
+        return
+    if data.startswith("vrb_ans_"):
+        await update.callback_query.answer()
+        idx = int(data.split("_")[2])
+        await _verb_answer(update, context, idx)
+        return
+    if data == "vrb_next":
+        await update.callback_query.answer()
+        await _next_verb_question(update, context)
+        return
+    if data == "vrb_hint":
+        await _verb_hint(update, context)
+        return
+    if data == "vrb_resume":
+        await update.callback_query.answer()
+        await _render_verb_question(update, context)
+        return
+
+    # --- предложения ---
+    if data == "sent_start":
+        await update.callback_query.answer()
+        await _start_sentence(update, context)
+        return
+    if data.startswith("sent_add_"):
+        await update.callback_query.answer()
+        idx = int(data.split("_")[2])
+        await _sentence_add(update, context, idx)
+        return
+    if data == "sent_undo":
+        await update.callback_query.answer()
+        await _sentence_undo(update, context)
+        return
+    if data == "sent_check":
+        await update.callback_query.answer()
+        await _sentence_check(update, context)
+        return
+    if data == "sent_next":
+        await update.callback_query.answer()
+        await _sentence_next(update, context)
+        return
+    if data == "sent_retry":
+        await update.callback_query.answer()
+        await _sentence_retry(update, context)
+        return
+    if data == "sent_reveal":
+        await update.callback_query.answer()
+        await _sentence_reveal(update, context)
+        return
+    if data == "sent_hint":
+        await _sentence_hint(update, context)
+        return
+    if data == "sent_resume":
+        await update.callback_query.answer()
+        await _sentence_resume(update, context)
+        return
