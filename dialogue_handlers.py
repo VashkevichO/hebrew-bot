@@ -114,7 +114,7 @@ def _dialogue_keyboard(dlg, state, with_random=True, voice_count=0):
         InlineKeyboardButton("✅ Готово", callback_data=f"dlg_done_{dlg['id']}"),
     ]
     if voice_count:
-        row.append(InlineKeyboardButton("🗑 Удалить сообщения", callback_data="dlg_clean"))
+        row.append(InlineKeyboardButton("🗑 Сообщения", callback_data="dlg_clean"))
     kb.append(row)
 
     # корни в диалоге

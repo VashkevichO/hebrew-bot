@@ -117,10 +117,10 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     register_user(user.id, update.effective_chat.id, user.full_name)
 
     text = (
-        f"👋 {user.full_name}! Это Hebrew Alphabet Bot — иврит с нуля.\n\n"
+        f"👋 {user.full_name}! Это HebrewVO Bot — иврит с нуля.\n\n"
         "Твой путь:\n"
         "🔤 буквы → 📚 слова и корни → 🏛 части речи → 🗣 речь\n\n"
-        "Общаемся и практикуемся в нашей группе 👇"
+        "Общаемся и практикуемся в группе: [t.me/hebrewVO](https://t.me/hebrewVO)"
     )
 
     keyboard = [
@@ -131,7 +131,6 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         [InlineKeyboardButton("📖 Справка", callback_data="menu_grammar")],
         [InlineKeyboardButton("📊 Мой прогресс", callback_data="menu_progress")],
         [InlineKeyboardButton("☕ Поддержать проект", callback_data="menu_donate")],
-        [InlineKeyboardButton("👥 Группа: t.me/hebrewVO", url="https://t.me/hebrewVO")],
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
 
