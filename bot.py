@@ -1023,7 +1023,7 @@ def main():
         dialogue_cb,
         pattern=r"^(menu_dialogues|menu_roots|dlg_|roots_page_|root_show_|cat_root_)",
     ))
-    app.add_handler(CallbackQueryHandler(menu_handler, pattern=r"^(menu_|explore_)"))
+    app.add_handler(CallbackQueryHandler(menu_handler, pattern=r"^(menu_|explore_|grammar_)"))
     app.add_handler(CallbackQueryHandler(quiz_handler, pattern=r"^quiz_"))
     app.add_handler(CallbackQueryHandler(answer_handler, pattern=r"^ans_"))
     app.add_handler(CallbackQueryHandler(build_handler, pattern=r"^build_"))
