@@ -114,7 +114,7 @@ def _dialogue_keyboard(dlg, state, with_random=True, voice_count=0):
         InlineKeyboardButton("✅ Готово", callback_data=f"dlg_done_{dlg['id']}"),
     ]
     if voice_count:
-        row.append(InlineKeyboardButton(f"🧹 Убрать звук ({voice_count})", callback_data="dlg_clean"))
+        row.append(InlineKeyboardButton("🗑 Удалить сообщения", callback_data="dlg_clean"))
     kb.append(row)
 
     # корни в диалоге
@@ -278,7 +278,7 @@ async def dialogue_cb(update: Update, context: ContextTypes.DEFAULT_TYPE):
             except Exception:
                 pass
         if deleted:
-            await query.answer(f"🧹 Убрано голосовых: {deleted}")
+            await query.answer(f"🗑 Удалено сообщений: {deleted}")
         return
 
     # --- готово (засчитывание) ---
