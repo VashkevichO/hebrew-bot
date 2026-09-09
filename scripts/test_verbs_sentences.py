@@ -68,7 +68,7 @@ def test_all_verb_roots_in_roots_json():
 
 def test_load_exercises():
     data = sentences.load_exercises()
-    assert len(data) == 10
+    assert len(data) == 22
 
 
 def test_correct_sentence():
