@@ -45,6 +45,21 @@ def get_verb_by_root(root):
     return None
 
 
+def _root_letters(root):
+    """Корень без точек и с нормализацией конечных: ה.ל.ך -> הלכ (как в roots)."""
+    sofit = str.maketrans({"ם": "מ", "ך": "כ", "ץ": "צ", "ף": "פ", "ן": "נ"})
+    return "".join(ch for ch in root.translate(sofit) if "\u05d0" <= ch <= "\u05ea")
+
+
+def find_verbs_by_root_letters(letters):
+    """Все глаголы, чей корень (без точек) равен letters."""
+    found = []
+    for v in load_verbs():
+        if _root_letters(v["root"]) == letters:
+            found.append(v)
+    return found
+
+
 def form_for(verb, form_key):
     """Форма глагола по ключу (male_sg и т.д.)."""
     return verb["present"][form_key]

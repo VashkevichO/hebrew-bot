@@ -416,24 +416,44 @@ async def _show_roots_page(update, context, page):
 
 
 async def _send_root_card(update, context, root, as_command=False, back_cb=None):
-    """Карточка корня: значение, слова, кнопки назад/каталог/собери слово."""
+    """Карточка корня: значение, слова, глаголы от корня, кнопки."""
+    from utils.verbs import find_verbs_by_root_letters
+
     lines = [f"🌱 **Корень: {root['root']}**", f"📖 {root['meaning']}", ""]
     for i, w in enumerate(root["words"], start=1):
         lines.append(f"{i}. **{w['he']}** — {w['ru']}")
     lines.append("")
     lines.append("💡 Многие слова иврита собраны из трёх букв корня.")
 
+    # глаголы от этого корня (связь корень -> глаголы)
+    letters = root_letters(root["root"])
+    verbs = find_verbs_by_root_letters(letters)
+    kb = []
+    if verbs:
+        lines.append("🏛 **Глаголы от корня:**")
+        verb_btns = []
+        for v in verbs[:4]:
+            lines.append(f"   {v['infinitive']} — {v['meaning']}")
+            verb_btns.append(InlineKeyboardButton(
+                f"🏛 {v['infinitive']}", callback_data=f"gvb_{letters}"
+            ))
+        if verb_btns:
+            kb.append(verb_btns[:3])
+            if len(verb_btns) > 3:
+                kb.append(verb_btns[3:])
+        lines.append("")
+
     btns = []
     if back_cb:
         btns.append(InlineKeyboardButton("🔙 Назад", callback_data=back_cb))
     btns.append(InlineKeyboardButton("📚 Все корни", callback_data="menu_roots"))
-    kb = InlineKeyboardMarkup([
-        btns,
-        [InlineKeyboardButton("🔊 Собери слово", callback_data="menu_build")],
-    ])
+    kb.append(btns)
+    kb.append([InlineKeyboardButton("🔊 Собери слово", callback_data="menu_build")])
 
+
+    markup = InlineKeyboardMarkup(kb)
     if as_command:
-        await update.message.reply_text("\n".join(lines), reply_markup=kb, parse_mode="Markdown")
+        await update.message.reply_text("\n".join(lines), reply_markup=markup, parse_mode="Markdown")
     else:
         query = update.callback_query
-        await query.edit_message_text("\n".join(lines), reply_markup=kb, parse_mode="Markdown")
+        await query.edit_message_text("\n".join(lines), reply_markup=markup, parse_mode="Markdown")

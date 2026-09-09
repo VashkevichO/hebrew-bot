@@ -43,3 +43,6 @@ songs_pilot/
 
 # ===== ФИНАНСЫ (личный QR для чаевых, не публикуем) =====
 assets/donate_qr.png
+
+# Резервный список слов (не используется ботом)
+data/first_words_full.txt

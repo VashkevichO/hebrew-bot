@@ -24,11 +24,38 @@ from utils.grammar import get_section, render_section
 VERB_QUESTIONS = 5
 SENTENCE_POINTS = 15
 
+BINYAN_NAMES = {
+    "paal": "пааль (простое действие)",
+    "piel": "пиэль (интенсив, доведение до результата)",
+    "hifil": "хифиль (причина, побуждение)",
+}
+
 
 def _menu_kb(extra_rows, back_cb="menu_main"):
     rows = [list(r) for r in extra_rows]
     rows.append([InlineKeyboardButton("🔙 В меню", callback_data=back_cb)])
     return InlineKeyboardMarkup(rows)
+
+
+def render_verb_card_text(verb):
+    """Текст карточки глагола (используется из карточки корня)."""
+    p = verb["present"]
+    binyan = BINYAN_NAMES.get(verb.get("binyan"), verb.get("binyan", ""))
+    lines = [
+        f"🏛 **Глагол: {verb['infinitive']}**",
+        f"📖 {verb['meaning']}",
+        f"🌱 Корень: {verb['root']}",
+        f"🔧 {binyan}",
+        "",
+        "**Настоящее время:**",
+        f"👨 он: {p['male_sg']}   👩 она: {p['female_sg']}",
+        f"👬 они (м.): {p['male_pl']}   👭 они (ж.): {p['female_pl']}",
+    ]
+    if verb.get("examples"):
+        ex = verb["examples"][0]
+        lines.append("")
+        lines.append(f"💬 {ex['he']} — _{ex['ru']}_")
+    return "\n".join(lines)
 
 
 # ===== Вводные экраны =====
@@ -362,6 +389,22 @@ async def _sentence_resume(update, context):
 
 async def training_cb(update: Update, context: ContextTypes.DEFAULT_TYPE):
     data = update.callback_query.data
+
+    # --- карточка глагола из корня ---
+    if data.startswith("gvb_"):
+        await update.callback_query.answer()
+        letters = data.split("_", 1)[1]
+        verbs = verbs_lib.find_verbs_by_root_letters(letters)
+        if verbs:
+            verb = verbs[0]
+            text = render_verb_card_text(verb)
+            kb = InlineKeyboardMarkup([
+                [InlineKeyboardButton("🌱 К корню", callback_data=f"root_show_{letters}")],
+                [InlineKeyboardButton("🏛 Тренировать глаголы", callback_data="menu_verbs"),
+                 InlineKeyboardButton("🔙 В меню", callback_data="menu_main")],
+            ])
+            await update.callback_query.edit_message_text(text, reply_markup=kb, parse_mode="Markdown")
+        return
 
     # --- вход в модули (с вводным экраном) ---
     if data == "menu_verbs":

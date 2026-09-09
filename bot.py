@@ -1017,7 +1017,7 @@ def main():
     # Тренировки (глаголы / предложения) — раньше menu_handler
     app.add_handler(CallbackQueryHandler(
         training_cb,
-        pattern=r"^(menu_verbs|menu_sentence|vrb_|sent_)",
+        pattern=r"^(menu_verbs|menu_sentence|vrb_|sent_|gvb_)",
     ))
     app.add_handler(CallbackQueryHandler(
         dialogue_cb,
