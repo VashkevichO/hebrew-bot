@@ -59,6 +59,7 @@ from utils.logic import (
     get_progress_text,
 )
 from utils.tts import generate_word_audio
+from utils.grammar import get_section, render_section
 
 from dialogue_handlers import (
     cmd_dialogue,
@@ -116,20 +117,17 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     text = (
         f"👋 {user.full_name}, добро пожаловать в Hebrew Alphabet Bot!\n\n"
-        "Я помогу тебе выучить алфавит иврита и научиться читать слова.\n\n"
-        "📌 **Уровень 1** — Алфавит (звук→буква, буква→звук, софиты)\n"
-        "📌 **Уровень 2** — Собери слово по звуку\n"
-        "📌 **Уровень 3** — Перепутанные буквы\n\n"
-        "Выбери уровень:"
+        "Я помогу тебе выучить алфавит иврита, слова, корни и начать говорить.\n\n"
+        "Твой путь: 🔤 буквы → 📚 слова и корни → 🏛 части речи → 🗣 речь\n\n"
+        "Выбери раздел:"
     )
 
     keyboard = [
-        [InlineKeyboardButton("🔤 Алфавит (ур.1)", callback_data="menu_alphabet")],
-        [InlineKeyboardButton("🔊 Собери слово (ур.2)", callback_data="menu_build")],
-        [InlineKeyboardButton("🔢 Сосчитай буквы", callback_data="menu_count")],
-        # [InlineKeyboardButton("🌀 Перепутанные буквы (ур.3)", callback_data="menu_scramble")],
-        [InlineKeyboardButton("🎭 Диалоги", callback_data="menu_dialogues")],
-        [InlineKeyboardButton("🌱 Корни", callback_data="menu_roots")],
+        [InlineKeyboardButton("🔤 Алфавит и буквы", callback_data="menu_alphabet")],
+        [InlineKeyboardButton("📚 Слова и корни", callback_data="menu_lex")],
+        [InlineKeyboardButton("🏛 Части речи", callback_data="menu_pos")],
+        [InlineKeyboardButton("🗣 Речь", callback_data="menu_speech")],
+        [InlineKeyboardButton("📖 Справка", callback_data="menu_grammar")],
         [InlineKeyboardButton("📊 Мой прогресс", callback_data="menu_progress")],
         [InlineKeyboardButton("☕ Поддержать проект", callback_data="menu_donate")],
     ]
@@ -160,12 +158,92 @@ async def menu_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
             [InlineKeyboardButton("👁️ Буква → звук", callback_data="quiz_letter")],
             [InlineKeyboardButton("🖊️ Письменная → печатная", callback_data="menu_script")],
             [InlineKeyboardButton("🧭 Соседи по алфавиту", callback_data="menu_neighbors")],
+            [InlineKeyboardButton("🔢 Сосчитай буквы", callback_data="menu_count")],
             # [InlineKeyboardButton("🔄 Печатная → Софит", callback_data="quiz_sofit")],
             [InlineKeyboardButton("🔙 Назад", callback_data="menu_main")],
         ]
         await query.edit_message_text(
-            "🔤 **Уровень 1 — Алфавит**\nВыбери режим:",
+            "🔤 **Алфавит и буквы**\nВыбери режим:",
             reply_markup=InlineKeyboardMarkup(keyboard),
+            parse_mode="Markdown",
+        )
+
+    elif data == "menu_lex":
+        keyboard = [
+            [InlineKeyboardButton("🔊 Собери слово", callback_data="menu_build")],
+            [InlineKeyboardButton("🌱 Корни", callback_data="menu_roots")],
+            [InlineKeyboardButton("🔙 Назад", callback_data="menu_main")],
+        ]
+        await query.edit_message_text(
+            "📚 **Слова и корни**\n\n"
+            "Слова состоят из букв, а многие слова — из трёх букв **корня**. "
+            "Потренируйся собирать слова и загляни в корни.",
+            reply_markup=InlineKeyboardMarkup(keyboard),
+            parse_mode="Markdown",
+        )
+
+    elif data == "menu_pos":
+        keyboard = [
+            [InlineKeyboardButton("🏛 Глаголы", callback_data="menu_verbs")],
+            [InlineKeyboardButton("🔙 Назад", callback_data="menu_main")],
+        ]
+        await query.edit_message_text(
+            "🏛 **Части речи**\n\nГлаголы — сердце языка. Скоро здесь появятся "
+            "и другие части речи.",
+            reply_markup=InlineKeyboardMarkup(keyboard),
+            parse_mode="Markdown",
+        )
+
+    elif data == "menu_speech":
+        keyboard = [
+            [InlineKeyboardButton("🎭 Диалоги", callback_data="menu_dialogues")],
+            [InlineKeyboardButton("🧩 Собери предложение", callback_data="menu_sentence")],
+            [InlineKeyboardButton("🔙 Назад", callback_data="menu_main")],
+        ]
+        await query.edit_message_text(
+            "🗣 **Речь**\n\nУчись говорить целыми фразами: диалоги для жизни "
+            "и сборка предложений.",
+            reply_markup=InlineKeyboardMarkup(keyboard),
+            parse_mode="Markdown",
+        )
+
+    elif data == "menu_grammar":
+        keyboard = [
+            [InlineKeyboardButton("📖 Биньяны", callback_data="grammar_binyanim")],
+            [InlineKeyboardButton("⏱ Настоящее время", callback_data="grammar_present_tense")],
+            [InlineKeyboardButton("🧱 Порядок слов", callback_data="grammar_word_order")],
+            [InlineKeyboardButton("🔗 Предлоги", callback_data="grammar_prepositions")],
+            [InlineKeyboardButton("🔙 Назад", callback_data="menu_main")],
+        ]
+        await query.edit_message_text(
+            "📖 **Справка**\nКороткие шпаргалки по грамматике.",
+            reply_markup=InlineKeyboardMarkup(keyboard),
+            parse_mode="Markdown",
+        )
+
+    elif data.startswith("grammar_"):
+        section_id = data.split("_", 1)[1]
+        section = get_section(section_id)
+        if section:
+            text = render_section(section)
+            await query.edit_message_text(
+                text,
+                reply_markup=InlineKeyboardMarkup([
+                    [InlineKeyboardButton("🔙 В справку", callback_data="menu_grammar")],
+                    [InlineKeyboardButton("🔙 В меню", callback_data="menu_main")],
+                ]),
+                parse_mode="Markdown",
+            )
+        else:
+            await query.edit_message_text("Раздел не найден.")
+
+    elif data in ("menu_verbs", "menu_sentence"):
+        # временная заглушка: модули подключаются следующими этапами
+        await query.edit_message_text(
+            "🚧 **В разработке**\n\nЭтот модуль скоро появится. Загляни позже!",
+            reply_markup=InlineKeyboardMarkup([
+                [InlineKeyboardButton("🔙 Назад", callback_data="menu_main")],
+            ]),
             parse_mode="Markdown",
         )
 
