@@ -320,9 +320,16 @@ async def _sentence_check(update, context):
 
     if result["ok"]:
         add_points(user_id, SENTENCE_POINTS)
+        # озвучка собранного предложения
+        sentence_he = " ".join(session["selected"])
+        try:
+            path = await generate_audio(sentence_he)
+            await _send_voice(update, context, path)
+        except Exception:
+            pass
         text = (
             f"✅ **Правильно!** +{SENTENCE_POINTS} очков\n\n"
-            f"💬 **{' '.join(session['selected'])}**"
+            f"💬 **{sentence_he}**"
         )
         kb = _menu_kb([
             [InlineKeyboardButton("▶ Ещё предложение", callback_data="sent_next"),

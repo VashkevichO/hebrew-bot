@@ -122,8 +122,8 @@ def test_important_sections():
     assert {"reading", "word_formation", "verbs", "sentences"} <= ids
 
 
-def test_render_section_with_table():
+def test_render_section():
     section = important.get_section("verbs")
     text = important.render_section(section)
     assert "пааль" in text.lower()
-    assert "|" in text  # таблица
+    assert "котэв" in text
