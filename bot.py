@@ -57,7 +57,9 @@ from utils.logic import (
     get_motivation,
     get_streak_message,
     get_progress_text,
+    POS_RU,
 )
+from utils.roots import root_letters
 from utils.tts import generate_word_audio
 from utils.important import get_section, render_section
 
@@ -284,11 +286,25 @@ async def menu_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         audio_path = await generate_word_audio(word_data["he"])
         await _send_voice(update, context, audio_path)
 
+        pos_line = ""
+        pos = word_data.get("pos")
+        if pos:
+            pos_line = f"📖 {POS_RU.get(pos, pos)}\n"
+
+        kb = _build_keyboard(word_data["he"], "build")
+        # связь с карточкой глагола (если слово — инфинитив)
+        root = word_data.get("root")
+        if root:
+            kb.inline_keyboard.insert(0, [InlineKeyboardButton(
+                "🏛 Карточка глагола", callback_data=f"gvb_{root_letters(root)}"
+            )])
+
         await query.edit_message_text(
-            f"🔊 Собери слово!\n\nСлово из {len(word_data['he'])} букв.\n"
+            f"🔊 Собери слово!\n\n{pos_line}"
+            f"Слово из {len(word_data['he'])} букв.\n"
             f"Подсказка: {word_data['ru']}\n\n"
             "Собрано: —\nНажимай буквы по порядку:",
-            reply_markup=_build_keyboard(word_data["he"], "build"),
+            reply_markup=kb,
         )
 
     elif data == "menu_scramble":

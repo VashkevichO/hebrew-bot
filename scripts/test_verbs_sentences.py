@@ -64,6 +64,15 @@ def test_all_verb_roots_in_roots_json():
         assert v["root"] in root_keys, f"корень {v['root']} отсутствует в roots.json"
 
 
+def test_all_words_includes_infinitives():
+    from utils.logic import get_all_words
+
+    words = get_all_words()
+    verb_words = [w for w in words if w.get("pos") == "verb"]
+    assert len(verb_words) == 25
+    assert all(w.get("root") for w in verb_words)
+
+
 # ===== Предложения =====
 
 def test_load_exercises():

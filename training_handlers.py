@@ -19,6 +19,21 @@ from telegram.ext import ContextTypes
 from utils import sentences as sentences_lib
 from utils import verbs as verbs_lib
 from utils.database import add_points, get_intro_seen, mark_intro_seen
+from utils.tts import generate_audio
+
+
+async def _send_voice(update, context, audio_path):
+    """Отправляет голосовое (удаляя предыдущее в этой сессии)."""
+    chat_id = update.effective_chat.id
+    last = context.user_data.pop("vrb_last_voice_id", None)
+    if last:
+        try:
+            await context.bot.delete_message(chat_id, last)
+        except Exception:
+            pass
+    with open(audio_path, "rb") as f:
+        msg = await context.bot.send_voice(chat_id, f)
+    context.user_data["vrb_last_voice_id"] = msg.message_id
 
 VERB_QUESTIONS = 5
 SENTENCE_POINTS = 15
@@ -370,11 +385,25 @@ async def training_cb(update: Update, context: ContextTypes.DEFAULT_TYPE):
             verb = verbs[0]
             text = render_verb_card_text(verb)
             kb = InlineKeyboardMarkup([
+                [InlineKeyboardButton("🔊 Озвучить инфинитив", callback_data=f"vrb_audio_{letters}")],
                 [InlineKeyboardButton("🌱 К корню", callback_data=f"root_show_{letters}")],
                 [InlineKeyboardButton("🏛 Тренировать глаголы", callback_data="menu_verbs"),
                  InlineKeyboardButton("🔙 В меню", callback_data="menu_main")],
             ])
             await update.callback_query.edit_message_text(text, reply_markup=kb, parse_mode="Markdown")
+        return
+
+    # --- озвучка инфинитива ---
+    if data.startswith("vrb_audio_"):
+        await update.callback_query.answer()
+        letters = data.split("_", 2)[2]
+        verbs = verbs_lib.find_verbs_by_root_letters(letters)
+        if verbs:
+            try:
+                path = await generate_audio(verbs[0]["infinitive"])
+                await _send_voice(update, context, path)
+            except Exception as e:
+                await update.callback_query.message.reply_text(f"Не удалось озвучить: {e}")
         return
 
     # --- вход в модули (с вводным экраном) ---

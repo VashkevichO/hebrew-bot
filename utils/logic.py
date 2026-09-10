@@ -10,7 +10,19 @@ with open(DATA_DIR / "alphabet.json", encoding="utf-8") as f:
 with open(DATA_DIR / "words.json", encoding="utf-8") as f:
     WORDS = json.load(f)["words"]
 
+with open(DATA_DIR / "verbs.json", encoding="utf-8") as f:
+    VERBS = json.load(f)["verbs"]
+
 ALPHABET_BY_ID = {l["id"]: l for l in ALPHABET}
+
+# Части речи (для показа в карточках)
+POS_RU = {
+    "verb": "глагол",
+    "noun": "существительное",
+    "adj": "прилагательное",
+    "adv": "наречие",
+    "phrase": "фраза",
+}
 
 
 def get_all_letters():
@@ -157,11 +169,29 @@ def get_quiz_script_to_name():
 
 # --- Уровень 2: Собери слово по звуку ---
 
+def get_all_words():
+    """Все слова для игры: словарь + инфинитивы глаголов (из verbs.json).
+
+    Инфинитивы не дублируются в words.json — берутся из verbs.json.
+    """
+    words = list(WORDS)
+    for v in VERBS:
+        words.append({
+            "he": v["infinitive"],
+            "ru": v["meaning"],
+            "pos": "verb",
+            "root": v["root"],
+            "level": 1,
+        })
+    return words
+
+
 def get_word_for_level(learned_ids=None):
     """Возвращает случайное слово (без привязки к изученным буквам)."""
-    if not WORDS:
+    pool = get_all_words()
+    if not pool:
         return None
-    return random.choice(WORDS)
+    return random.choice(pool)
 
 
 def get_scramble_word(learned_ids=None):
