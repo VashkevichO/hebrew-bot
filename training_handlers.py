@@ -19,7 +19,6 @@ from telegram.ext import ContextTypes
 from utils import sentences as sentences_lib
 from utils import verbs as verbs_lib
 from utils.database import add_points, get_intro_seen, mark_intro_seen
-from utils.grammar import get_section, render_section
 
 VERB_QUESTIONS = 5
 SENTENCE_POINTS = 15
@@ -123,7 +122,6 @@ def _verb_question_kb(session):
             row.append(InlineKeyboardButton(opt, callback_data=f"vrb_ans_{idx}"))
         rows.append(row)
     rows.append([
-        InlineKeyboardButton("ℹ️ Подсказка", callback_data="vrb_hint"),
         InlineKeyboardButton("⏹ Выйти", callback_data="menu_main"),
     ])
     return InlineKeyboardMarkup(rows)
@@ -176,8 +174,7 @@ async def _verb_finish(update, context):
     else:
         text += "\n\n📖 Загляни в «Справку» → «Настоящее время» и попробуй ещё раз."
     kb = _menu_kb([
-        [InlineKeyboardButton("🔁 Ещё раз", callback_data="vrb_start"),
-         InlineKeyboardButton("📖 Настоящее время", callback_data="vrb_hint")],
+        [InlineKeyboardButton("🔁 Ещё раз", callback_data="vrb_start")],
     ])
     await query.edit_message_text(text, reply_markup=kb, parse_mode="Markdown")
 
@@ -213,18 +210,6 @@ async def _verb_answer(update, context, answer_idx):
     await query.edit_message_text(text, reply_markup=kb, parse_mode="Markdown")
 
 
-async def _verb_hint(update, context):
-    query = update.callback_query
-    await query.answer()
-    section = get_section("present_tense")
-    if section:
-        text = render_section(section)
-    else:
-        text = "Раздел не найден"
-    kb = _menu_kb([[InlineKeyboardButton("🔙 К вопросу", callback_data="vrb_resume")]])
-    await query.edit_message_text(text, reply_markup=kb, parse_mode="Markdown")
-
-
 # ===== СОБЕРИ ПРЕДЛОЖЕНИЕ =====
 
 async def _start_sentence(update, context):
@@ -255,7 +240,6 @@ def _sentence_kb(session, with_actions=True):
             actions.append(InlineKeyboardButton("✅ Проверить", callback_data="sent_check"))
         rows.append(actions)
         rows.append([
-            InlineKeyboardButton("ℹ️ Подсказка", callback_data="sent_hint"),
             InlineKeyboardButton("⏭ Пропустить", callback_data="sent_next"),
             InlineKeyboardButton("🔙 В меню", callback_data="menu_main"),
         ])
@@ -372,19 +356,6 @@ async def _sentence_next(update, context):
     await _render_sentence(update, context)
 
 
-async def _sentence_hint(update, context):
-    query = update.callback_query
-    await query.answer()
-    section = get_section("word_order")
-    text = render_section(section) if section else "Раздел не найден"
-    kb = _menu_kb([[InlineKeyboardButton("🔙 К упражнению", callback_data="sent_resume")]])
-    await query.edit_message_text(text, reply_markup=kb, parse_mode="Markdown")
-
-
-async def _sentence_resume(update, context):
-    await _render_sentence(update, context)
-
-
 # ===== Диспетчер =====
 
 async def training_cb(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -428,13 +399,6 @@ async def training_cb(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.callback_query.answer()
         await _next_verb_question(update, context)
         return
-    if data == "vrb_hint":
-        await _verb_hint(update, context)
-        return
-    if data == "vrb_resume":
-        await update.callback_query.answer()
-        await _render_verb_question(update, context)
-        return
 
     # --- предложения ---
     if data == "sent_start":
@@ -465,11 +429,4 @@ async def training_cb(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if data == "sent_reveal":
         await update.callback_query.answer()
         await _sentence_reveal(update, context)
-        return
-    if data == "sent_hint":
-        await _sentence_hint(update, context)
-        return
-    if data == "sent_resume":
-        await update.callback_query.answer()
-        await _sentence_resume(update, context)
         return

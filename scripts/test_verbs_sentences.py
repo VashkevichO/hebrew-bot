@@ -4,7 +4,7 @@
 """
 import pytest
 
-from utils import grammar, sentences, verbs
+from utils import important, sentences, verbs
 
 
 # ===== Глаголы =====
@@ -104,17 +104,17 @@ def test_wrong_order_feedback():
     assert res["feedback_type"] == "wrong_order"
 
 
-# ===== Справка =====
+# ===== Важно =====
 
-def test_grammar_sections():
-    sections = grammar.load_sections()
+def test_important_sections():
+    sections = important.load_sections()
     assert len(sections) == 4
     ids = {s["id"] for s in sections}
-    assert {"binyanim", "present_tense", "word_order", "prepositions"} <= ids
+    assert {"reading", "word_formation", "verbs", "sentences"} <= ids
 
 
 def test_render_section_with_table():
-    section = grammar.get_section("binyanim")
-    text = grammar.render_section(section)
-    assert "Пааль" in text
+    section = important.get_section("verbs")
+    text = important.render_section(section)
+    assert "пааль" in text.lower()
     assert "|" in text  # таблица

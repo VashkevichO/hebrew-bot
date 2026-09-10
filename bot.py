@@ -59,7 +59,7 @@ from utils.logic import (
     get_progress_text,
 )
 from utils.tts import generate_word_audio
-from utils.grammar import get_section, render_section
+from utils.important import get_section, render_section
 
 from dialogue_handlers import (
     cmd_dialogue,
@@ -128,7 +128,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         [InlineKeyboardButton("📚 Слова и корни", callback_data="menu_lex")],
         [InlineKeyboardButton("🏛 Части речи", callback_data="menu_pos")],
         [InlineKeyboardButton("🗣 Речь", callback_data="menu_speech")],
-        [InlineKeyboardButton("📖 Справка", callback_data="menu_grammar")],
+        [InlineKeyboardButton("📌 Важно", callback_data="menu_important")],
         [InlineKeyboardButton("📊 Мой прогресс", callback_data="menu_progress")],
         [InlineKeyboardButton("☕ Поддержать проект", callback_data="menu_donate")],
     ]
@@ -208,21 +208,21 @@ async def menu_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
             parse_mode="Markdown",
         )
 
-    elif data == "menu_grammar":
+    elif data == "menu_important":
         keyboard = [
-            [InlineKeyboardButton("📖 Биньяны", callback_data="grammar_binyanim")],
-            [InlineKeyboardButton("⏱ Настоящее время", callback_data="grammar_present_tense")],
-            [InlineKeyboardButton("🧱 Порядок слов", callback_data="grammar_word_order")],
-            [InlineKeyboardButton("🔗 Предлоги", callback_data="grammar_prepositions")],
+            [InlineKeyboardButton("📖 Чтение", callback_data="important_reading")],
+            [InlineKeyboardButton("🔤 Словообразование", callback_data="important_word_formation")],
+            [InlineKeyboardButton("🏛 Глаголы", callback_data="important_verbs")],
+            [InlineKeyboardButton("🧱 Предложения", callback_data="important_sentences")],
             [InlineKeyboardButton("🔙 Назад", callback_data="menu_main")],
         ]
         await query.edit_message_text(
-            "📖 **Справка**\nКороткие шпаргалки по грамматике.",
+            "📌 **Важно**\nКороткие памятки по ивриту.",
             reply_markup=InlineKeyboardMarkup(keyboard),
             parse_mode="Markdown",
         )
 
-    elif data.startswith("grammar_"):
+    elif data.startswith("important_"):
         section_id = data.split("_", 1)[1]
         section = get_section(section_id)
         if section:
@@ -230,7 +230,7 @@ async def menu_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
             await query.edit_message_text(
                 text,
                 reply_markup=InlineKeyboardMarkup([
-                    [InlineKeyboardButton("🔙 В справку", callback_data="menu_grammar")],
+                    [InlineKeyboardButton("🔙 В «Важно»", callback_data="menu_important")],
                     [InlineKeyboardButton("🔙 В меню", callback_data="menu_main")],
                 ]),
                 parse_mode="Markdown",
@@ -1023,7 +1023,7 @@ def main():
         dialogue_cb,
         pattern=r"^(menu_dialogues|menu_roots|dlg_|roots_page_|root_show_|cat_root_)",
     ))
-    app.add_handler(CallbackQueryHandler(menu_handler, pattern=r"^(menu_|explore_|grammar_)"))
+    app.add_handler(CallbackQueryHandler(menu_handler, pattern=r"^(menu_|explore_|important_)"))
     app.add_handler(CallbackQueryHandler(quiz_handler, pattern=r"^quiz_"))
     app.add_handler(CallbackQueryHandler(answer_handler, pattern=r"^ans_"))
     app.add_handler(CallbackQueryHandler(build_handler, pattern=r"^build_"))
